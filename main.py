@@ -33,7 +33,7 @@ def get_one_input(
     without_skip = [
         "Next",
     ]
-    withskip = ["Next", "Skip"]
+    withskip = ["Skip", "Next"]
     if can_skip:
         buttons = withskip
     else:
