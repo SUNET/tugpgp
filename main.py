@@ -143,7 +143,7 @@ def main(screen):
     )
     show_and_take_input(
         screen,
-        "Now the screen will go black for a few seconds to create the key.",
+        "Now the screen will go black for a few seconds to create the key.\n\n",
         (("Next", "next"),),
     )
 
@@ -152,25 +152,25 @@ def main(screen):
     # Now ask the user to connect Yubikey
     show_and_take_input(
         screen,
-        "Now connect the Yubikey to the system, and press Next",
+        "Now connect the Yubikey to the system, and press Next\n\n",
         (("Next", "next"),),
     )
     show_and_take_input(
         screen,
-        "At first we will reset the Yubikey.",
+        "At first we will reset the Yubikey.\n\n",
         (("Next", "next"),),
     )
     # TODO: reset the key
     show_and_take_input(
         screen,
-        "Now we will upload the new OpenPGP key to the Yubikey.",
+        "Now we will upload the new OpenPGP key to the Yubikey.\n\n",
         (("Next", "next"),),
     )
 
     # TODO: Upload to the Yubikey
     show_and_take_input(
         screen,
-        "Upload to Yubikey is successful.",
+        "Upload to Yubikey is successful.\n\n",
         (("Next", "next"),),
     )
 
@@ -179,6 +179,12 @@ def main(screen):
 
     # TODO: Get the pin user pin
     # TODO: Get the new admin pin
+    show_and_take_input(
+        screen,
+        "Your Yubikey is now ready to be used. Remember to import the public key to any system as required.\n\n",
+        (("Done", "done"),),
+    )
+
 
 
 if __name__ == "__main__":
