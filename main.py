@@ -96,8 +96,6 @@ def show_and_take_password(screen, toptext, text, buttons):
 
 
 def main(screen):
-    # home_dir = str(pathlib.Path().home())
-    # em = get_one_input(screen, "Save the public key in the following directory:\n\n", "Directory:", value=home_dir, can_skip=True)
     # # First get the name and email addresses
     # password = show_and_take_password(screen, "The following will be the new Admin pin for your Yubikey.", "Pin:", (("Next",)))
 
@@ -174,11 +172,35 @@ def main(screen):
         (("Next", "next"),),
     )
 
-    # TODO: Save the public key
-    # TODO: Save the private key (OPTIONAL)
 
-    # TODO: Get the pin user pin
-    # TODO: Get the new admin pin
+    home_dir = str(pathlib.Path().home())
+    em = get_one_input(screen, "Save the public key in the following directory:\n\n", "Directory:", value=home_dir, can_skip=False)
+    # Format of em: ('next', ('/home/kdas/code',))
+    public_key_dir: str = em[1][0]
+    # TODO: Save the public key
+    with open("/tmp/pgp.txt", "w") as fobj:
+        fobj.write(f"{em[1]}\n")
+
+    em = get_one_input(screen, "Export the private key in the following directory:\n\n", "Directory:", value=home_dir, can_skip=True)
+    # Format of em: ('next', ('/home/kdas/code',))
+    if em[0] == "next":
+        private_export_dir = em[1][0]
+        # TODO: Save the private key (OPTIONAL)
+
+    user_pin = show_and_take_password(
+        screen,
+        "Set new User pin (daily use), 6 characters at least.",
+        "Pin:",
+        (("Next",)),
+    )
+    # TODO: Set the pin user pin
+    admin_pin = show_and_take_password(
+        screen,
+        "Set new Admin pin, 8 characters at least.",
+        "Pin:",
+        (("Next",)),
+    )
+    # TODO: Set the new admin pin
     show_and_take_input(
         screen,
         "Your Yubikey is now ready to be used. Remember to import the public key to any system as required.\n\n",
