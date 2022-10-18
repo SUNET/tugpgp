@@ -172,14 +172,25 @@ def main(screen):
         (("Next", "next"),),
     )
 
-
     home_dir = str(pathlib.Path().home())
-    em = get_one_input(screen, "Save the public key in the following directory:\n\n", "Directory:", value=home_dir, can_skip=False)
+    em = get_one_input(
+        screen,
+        "Save the public key in the following directory:\n\n",
+        "Directory:",
+        value=home_dir,
+        can_skip=False,
+    )
     # Format of em: ('next', ('/home/kdas/code',))
     public_key_dir: str = em[1][0]
     # TODO: Save the public key
 
-    em = get_one_input(screen, "Export the private key in the following directory:\n\n", "Directory:", value=home_dir, can_skip=True)
+    em = get_one_input(
+        screen,
+        "Export the private key in the following directory:\n\n",
+        "Directory:",
+        value=home_dir,
+        can_skip=True,
+    )
     # Format of em: ('next', ('/home/kdas/code',))
     if em[0] == "next":
         private_export_dir = em[1][0]
@@ -204,7 +215,6 @@ def main(screen):
         "Your Yubikey is now ready to be used. Remember to import the public key to any system as required.\n\n",
         (("Done", "done"),),
     )
-
 
 
 if __name__ == "__main__":
