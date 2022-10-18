@@ -178,8 +178,6 @@ def main(screen):
     # Format of em: ('next', ('/home/kdas/code',))
     public_key_dir: str = em[1][0]
     # TODO: Save the public key
-    with open("/tmp/pgp.txt", "w") as fobj:
-        fobj.write(f"{em[1]}\n")
 
     em = get_one_input(screen, "Export the private key in the following directory:\n\n", "Directory:", value=home_dir, can_skip=True)
     # Format of em: ('next', ('/home/kdas/code',))
