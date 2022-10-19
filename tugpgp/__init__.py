@@ -4,6 +4,7 @@ from snack import *
 import pathlib
 import sys
 
+screen = None
 
 def create_mainscreen():
     """
@@ -16,7 +17,7 @@ def create_mainscreen():
     return screen
 
 
-def get_name_emails(name="", emails=""):
+def get_name_emails(screen, name="", emails=""):
     em = EntryWindow(
         screen,
         "tugpgp",
@@ -109,7 +110,7 @@ def main(screen):
     emails_list = ""
     emails = []
     while True:
-        em = get_name_emails(name, emails_list)
+        em = get_name_emails(screen, name, emails_list)
         if em[0] == "cancel":
             # We should exit
             screen.finish()
@@ -217,7 +218,8 @@ def main(screen):
     )
 
 
-if __name__ == "__main__":
+def start():
+    """Entry point"""
     screen = create_mainscreen()
     g = GridForm(screen, "tugpgp", 1, 2)
     em = TextboxReflowed(
@@ -231,3 +233,6 @@ if __name__ == "__main__":
     result: Button = g.runOnce()
     main(screen)
     screen.finish()
+
+if __name__ == "__main__":
+    start()
