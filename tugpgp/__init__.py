@@ -197,19 +197,23 @@ def main(screen):
         private_export_dir = em[1][0]
         # TODO: Save the private key (OPTIONAL)
 
-    user_pin = show_and_take_password(
-        screen,
-        "Set new User pin (daily use), 6 characters at least.",
-        "Pin:",
-        (("Next",)),
-    )
+    user_pin = ""
+    while len(user_pin) < 6:
+        user_pin = show_and_take_password(
+            screen,
+            "Set new User pin (daily use), 6 characters at least.",
+            "Pin:",
+            (("Next",)),
+        )
     # TODO: Set the pin user pin
-    admin_pin = show_and_take_password(
-        screen,
-        "Set new Admin pin, 8 characters at least.",
-        "Pin:",
-        (("Next",)),
-    )
+    admin_pin = ""
+    while len(admin_pin) < 8:
+        admin_pin = show_and_take_password(
+            screen,
+            "Set new Admin pin, 8 characters at least.",
+            "Pin:",
+            (("Next",)),
+        )
     # TODO: Set the new admin pin
     show_and_take_input(
         screen,
