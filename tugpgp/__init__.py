@@ -97,15 +97,7 @@ def show_and_take_password(screen, toptext, text, buttons):
 
 
 def main(screen):
-    # # First get the name and email addresses
-    # password = show_and_take_password(screen, "The following will be the new Admin pin for your Yubikey.", "Pin:", (("Next",)))
-
-    # screen.finish()
-    # # breakpoint()
-    # print(password)
-    # print(em)
-    # sys.exit(0)
-
+    # First get the name and email addresses
     name = ""
     emails_list = ""
     emails = []
