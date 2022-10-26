@@ -2,9 +2,24 @@
 
 from snack import *
 import pathlib
+import os
 import sys
+import datetime
+
+from johnnycanencrypt import Cipher
+import johnnycanencrypt.johnnycanencrypt as rjce
 
 screen = None
+
+
+def next_year(d, years: int):
+    "Adds the given years to the given datetime"
+    try:
+        return d.replace(year=d.year + years)
+    except ValueError:
+        # For February 29th situation
+        return d.replace(year=d.year + years, day=28)
+
 
 def create_mainscreen():
     """
@@ -97,6 +112,9 @@ def show_and_take_password(screen, toptext, text, buttons):
 
 
 def main(screen):
+    # This will be our creation time
+    now = datetime.datetime.now()
+    expiration = next_year(now, 1)
     # First get the name and email addresses
     name = ""
     emails_list = ""
@@ -139,6 +157,17 @@ def main(screen):
     )
 
     # TODO: Create the new key here
+    # Primary key can sign and subkeys will expire
+    public, secret, fingerprint = rjce.create_key(
+        key_password,
+        uids,
+        Cipher.RSA4k.value,
+        int(now.timestamp()),
+        int(expiration.timestamp()),
+        True,
+        5,
+        True,
+    )
 
     # Now ask the user to connect Yubikey
     show_and_take_input(
@@ -151,7 +180,8 @@ def main(screen):
         "At first we will reset the Yubikey.\n\n",
         (("Next", "next"),),
     )
-    # TODO: reset the key
+    # TODO: In case we fail, show nice error dialog
+    assert rjce.reset_yubikey()
     show_and_take_input(
         screen,
         "Now we will upload the new OpenPGP key to the Yubikey.\n\n",
@@ -159,6 +189,10 @@ def main(screen):
     )
 
     # TODO: Upload to the Yubikey
+    # First upload the primary key
+    rjce.upload_primary_to_smartcard(secret.encode("utf-8"), b"12345678", key_password, whichslot=2)
+    # now upload the subkeys
+    rjce.upload_to_smartcard(secret.encode("utf-8"), b"12345678", key_password, whichkeys=5)
     show_and_take_input(
         screen,
         "Upload to Yubikey is successful.\n\n",
@@ -175,7 +209,10 @@ def main(screen):
     )
     # Format of em: ('next', ('/home/kdas/code',))
     public_key_dir: str = em[1][0]
+    public_key_file = os.path.join(public_key_dir, f"{fingerprint}.pub")
     # TODO: Save the public key
+    with open(public_key_file, "w") as fobj:
+        fobj.write(public)
 
     em = get_one_input(
         screen,
@@ -187,7 +224,10 @@ def main(screen):
     # Format of em: ('next', ('/home/kdas/code',))
     if em[0] == "next":
         private_export_dir = em[1][0]
+        private_key_file = os.path.join(private_export_dir, f"{fingerprint}.sec")
         # TODO: Save the private key (OPTIONAL)
+        with open(private_key_file, "w") as fobj:
+            fobj.write(secret)
 
     user_pin = ""
     while len(user_pin) < 6:
@@ -198,6 +238,7 @@ def main(screen):
             (("Next",)),
         )
     # TODO: Set the pin user pin
+    rjce.change_user_pin(b"12345678", user_pin.encode("utf-8"))
     admin_pin = ""
     while len(admin_pin) < 8:
         admin_pin = show_and_take_password(
@@ -207,6 +248,7 @@ def main(screen):
             (("Next",)),
         )
     # TODO: Set the new admin pin
+    rjce.change_admin_pin(b"12345678", admin_pin.encode("utf-8"))
     show_and_take_input(
         screen,
         "Your Yubikey is now ready to be used. Remember to import the public key to any system as required.\n\n",
@@ -229,6 +271,7 @@ def start():
     result: Button = g.runOnce()
     main(screen)
     screen.finish()
+
 
 if __name__ == "__main__":
     start()
