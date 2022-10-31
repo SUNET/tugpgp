@@ -32,6 +32,16 @@ def create_mainscreen():
     return screen
 
 
+def show_error(screen, text):
+    "Shows the error message."
+    g = GridForm(screen, "tugpgp", 1, 2)
+    em = TextboxReflowed(55, f"ERROR: \n\n {text}")
+    g.add(em, 0, 0)
+    bb = ButtonBar(screen, (("Next", "next"),))
+    g.add(bb, 0, 1)
+    result: Button = g.runOnce()
+
+
 def get_name_emails(screen, name="", emails=""):
     em = EntryWindow(
         screen,
@@ -175,6 +185,13 @@ def main(screen):
         "Now connect the Yubikey to the system, and press Next\n\n",
         (("Next", "next"),),
     )
+    # Now make sure that the card is actually connected
+    while True:
+        if not rjce.is_smartcard_connected():
+            show_error(screen, "No Yubikey found on the system.\nPlease reconnect.\n\n")
+        else:
+            break
+
     show_and_take_input(
         screen,
         "At first we will reset the Yubikey.\n\n",
@@ -190,9 +207,13 @@ def main(screen):
 
     # TODO: Upload to the Yubikey
     # First upload the primary key
-    rjce.upload_primary_to_smartcard(secret.encode("utf-8"), b"12345678", key_password, whichslot=2)
+    rjce.upload_primary_to_smartcard(
+        secret.encode("utf-8"), b"12345678", key_password, whichslot=2
+    )
     # now upload the subkeys
-    rjce.upload_to_smartcard(secret.encode("utf-8"), b"12345678", key_password, whichkeys=5)
+    rjce.upload_to_smartcard(
+        secret.encode("utf-8"), b"12345678", key_password, whichkeys=5
+    )
     show_and_take_input(
         screen,
         "Upload to Yubikey is successful.\n\n",
