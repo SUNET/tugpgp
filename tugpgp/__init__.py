@@ -35,7 +35,7 @@ def create_mainscreen():
 def show_error(screen, text):
     "Shows the error message."
     g = GridForm(screen, "tugpgp", 1, 2)
-    em = TextboxReflowed(55, f"ERROR: \n\n {text}")
+    em = TextboxReflowed(55, f"ERROR: \n\n{text}")
     g.add(em, 0, 0)
     bb = ButtonBar(screen, (("Next", "next"),))
     g.add(bb, 0, 1)
@@ -234,6 +234,11 @@ def main(screen):
     # TODO: Save the public key
     with open(public_key_file, "w") as fobj:
         fobj.write(public)
+
+    # Now tell the user where is the key.
+    show_and_take_input(
+        screen, f"Your publick key is saved at {public_key_file}.", (("Next", "next"),)
+    )
 
     em = get_one_input(
         screen,
