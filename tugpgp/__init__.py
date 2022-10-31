@@ -205,15 +205,22 @@ def main(screen):
         (("Next", "next"),),
     )
 
-    # TODO: Upload to the Yubikey
-    # First upload the primary key
-    rjce.upload_primary_to_smartcard(
-        secret.encode("utf-8"), b"12345678", key_password, whichslot=2
-    )
-    # now upload the subkeys
-    rjce.upload_to_smartcard(
-        secret.encode("utf-8"), b"12345678", key_password, whichkeys=5
-    )
+    try:
+        # TODO: Upload to the Yubikey
+        # First upload the primary key
+        rjce.upload_primary_to_smartcard(
+            secret.encode("utf-8"), b"12345678", key_password, whichslot=2
+        )
+        # now upload the subkeys
+        rjce.upload_to_smartcard(
+            secret.encode("utf-8"), b"12345678", key_password, whichkeys=5
+        )
+    except Exception as e:
+        show_error(screen, "Error while uploading the keys. Copy paste the error from next screen and show to the developers.")
+        screen.finish()
+        print(e)
+
+
     show_and_take_input(
         screen,
         "Upload to Yubikey is successful.\n\n",
