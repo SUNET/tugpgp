@@ -7,10 +7,18 @@ Under active development.
 
 ### LICENSE: GPL-3.0-or-later
 
-### Install the dependencies
+## Install the dependencies
 
-`apt install python3-newt` or `dnf install python3-newt`, or `brew install newt` on Mac.
+### On Linux
 
+`apt install python3-newt` or `dnf install python3-newt`.
+
+### On Mac
+
+`brew install newt` on Mac.
+
+
+### Next create the virtualenv
 
 ```
 python3 -m venv .venv --system-site-packages
