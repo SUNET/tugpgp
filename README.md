@@ -22,15 +22,9 @@ Under active development.
 
 ```
 python3 -m venv .venv --system-site-packages
-source .venv/bin/activate/
+source .venv/bin/activate
 python3 -m pip install johnnycanencrypt
 ```
-
-This requires
-[Johnnycanencrypt](https://github.com/kushaldas/johnnycanencrypt/), check the
-readme there for build instructions. Best option is to build a wheel file
-locally and then to use it. In future we will make sure to provide these
-wheels.
 
 ### How to use the tool?
 
