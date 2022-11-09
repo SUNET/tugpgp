@@ -12,6 +12,8 @@ import johnnycanencrypt.johnnycanencrypt as rjce
 screen = None
 
 
+
+
 def next_year(d, years: int):
     "Adds the given years to the given datetime"
     try:
@@ -166,18 +168,23 @@ def main(screen):
         (("Next", "next"),),
     )
 
-    # TODO: Create the new key here
-    # Primary key can sign and subkeys will expire
-    public, secret, fingerprint = rjce.create_key(
-        key_password,
-        uids,
-        Cipher.RSA4k.value,
-        int(now.timestamp()),
-        int(expiration.timestamp()),
-        True,
-        5,
-        True,
-    )
+    try:
+        # Primary key can sign and subkeys will expire
+        public, secret, fingerprint = rjce.create_key(
+            key_password,
+            uids,
+            Cipher.RSA4k.value,
+            int(now.timestamp()),
+            int(expiration.timestamp()),
+            True,
+            5,
+            True,
+            True,
+        )
+    except Exception as e:
+        screen.finish()
+        print(f"Error while creating the key {e}")
+        sys.exit(0)
 
     # Now ask the user to connect Yubikey
     show_and_take_input(
@@ -262,6 +269,16 @@ def main(screen):
         with open(private_key_file, "w") as fobj:
             fobj.write(secret)
 
+    show_and_take_input(
+        screen, f"Next few seconds we will setup the touch policy for the Yubikey.", (("Next", "next"),)
+    )
+    rjce.set_keyslot_touch_policy(b"12345678", rjce.KeySlot.Encryption, rjce.TouchMode.Fixed)
+    rjce.set_keyslot_touch_policy(b"12345678", rjce.KeySlot.Signature, rjce.TouchMode.Fixed)
+    # Because the user may want to disable for some work.
+    rjce.set_keyslot_touch_policy(b"12345678", rjce.KeySlot.Authentication, rjce.TouchMode.On)
+    show_and_take_input(
+        screen, f"You will have to touch the Yubikey for decrypt/sign/authentication operations.\n\n", (("Next", "next"),)
+    )
     user_pin = ""
     while len(user_pin) < 6:
         user_pin = show_and_take_password(

@@ -26,6 +26,8 @@ source .venv/bin/activate
 python3 -m pip install johnnycanencrypt
 ```
 
+We need [johnnycanencrypt](https://github.com/kushaldas/johnnycanencrypt) version 0.11.0 or above.
+
 ### How to use the tool?
 
 
