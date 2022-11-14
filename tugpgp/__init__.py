@@ -5,9 +5,11 @@ import pathlib
 import os
 import sys
 import datetime
+import getpass
 
 from johnnycanencrypt import Cipher
 import johnnycanencrypt.johnnycanencrypt as rjce
+import click
 
 screen = None
 
@@ -316,8 +318,33 @@ def main(screen):
     )
 
 
-def start():
-    """Entry point"""
+@click.command()
+@click.option(
+    "--touch-auth-off",
+    help="To turn off touch policy for authentication.",
+    is_flag=True,
+)
+@click.option(
+    "--touch-auth-on", help="To turn on touch policy for authentication.", is_flag=True
+)
+def start(touch_auth_off: bool, touch_auth_on: bool):
+    """Helps to create OpenPGP key and upload to Yubikey."""
+    # To turn off touch for auth
+    mode = rjce.TouchMode.On
+    if touch_auth_off:
+        mode = rjce.TouchMode.Off
+    if touch_auth_off or touch_auth_on:
+        password = getpass.getpass(prompt="Admin pin of the Yubikey: ")
+        try:
+            rjce.set_keyslot_touch_policy(
+                password.encode("utf-8"), rjce.KeySlot.Authentication, mode
+            )
+        except Exception as e:
+            print(e)
+            sys.exit(1)
+        print("Your Yubikey's touch policy is now changed.")
+        sys.exit(0)
+
     screen = create_mainscreen()
     g = GridForm(screen, "tugpgp", 1, 2)
     em = TextboxReflowed(
