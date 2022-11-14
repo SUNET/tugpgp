@@ -12,8 +12,6 @@ import johnnycanencrypt.johnnycanencrypt as rjce
 screen = None
 
 
-
-
 def next_year(d, years: int):
     "Adds the given years to the given datetime"
     try:
@@ -223,10 +221,12 @@ def main(screen):
             secret.encode("utf-8"), b"12345678", key_password, whichkeys=5
         )
     except Exception as e:
-        show_error(screen, "Error while uploading the keys. Copy paste the error from next screen and show to the developers.")
+        show_error(
+            screen,
+            "Error while uploading the keys. Copy paste the error from next screen and show to the developers.",
+        )
         screen.finish()
         print(e)
-
 
     show_and_take_input(
         screen,
@@ -270,14 +270,24 @@ def main(screen):
             fobj.write(secret)
 
     show_and_take_input(
-        screen, f"Next few seconds we will setup the touch policy for the Yubikey.", (("Next", "next"),)
+        screen,
+        f"Next few seconds we will setup the touch policy for the Yubikey.",
+        (("Next", "next"),),
     )
-    rjce.set_keyslot_touch_policy(b"12345678", rjce.KeySlot.Encryption, rjce.TouchMode.Fixed)
-    rjce.set_keyslot_touch_policy(b"12345678", rjce.KeySlot.Signature, rjce.TouchMode.Fixed)
+    rjce.set_keyslot_touch_policy(
+        b"12345678", rjce.KeySlot.Encryption, rjce.TouchMode.Fixed
+    )
+    rjce.set_keyslot_touch_policy(
+        b"12345678", rjce.KeySlot.Signature, rjce.TouchMode.Fixed
+    )
     # Because the user may want to disable for some work.
-    rjce.set_keyslot_touch_policy(b"12345678", rjce.KeySlot.Authentication, rjce.TouchMode.On)
+    rjce.set_keyslot_touch_policy(
+        b"12345678", rjce.KeySlot.Authentication, rjce.TouchMode.On
+    )
     show_and_take_input(
-        screen, f"You will have to touch the Yubikey for decrypt/sign/authentication operations.\n\n", (("Next", "next"),)
+        screen,
+        f"You will have to touch the Yubikey for decrypt/sign/authentication operations.\n\n",
+        (("Next", "next"),),
     )
     user_pin = ""
     while len(user_pin) < 6:
