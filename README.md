@@ -24,7 +24,7 @@ Under active development.
 python3 -m venv .venv --system-site-packages
 source .venv/bin/activate
 python3 -m pip install wheel
-python3 -m pip install johnnycanencrypt
+python3 -m pip install -r requirements.txt
 ```
 
 We need [johnnycanencrypt](https://github.com/kushaldas/johnnycanencrypt) version 0.11.0 or above.
