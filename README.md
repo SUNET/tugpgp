@@ -9,21 +9,13 @@ Under active development.
 
 ## Install the dependencies
 
-### On Linux
-
-`apt install python3-newt` or `dnf install python3-newt`.
-
-### On Mac
-
-`brew install newt` on Mac.
-
 
 ### Next create the virtualenv
 
 ```
-python3 -m venv .venv --system-site-packages
-source .venv/bin/activate
+python3 -m venv .venv 
 python3 -m pip install wheel
+python3 -m pip install -U pip
 python3 -m pip install -r requirements.txt
 ```
 
@@ -33,7 +25,7 @@ We need [johnnycanencrypt](https://github.com/kushaldas/johnnycanencrypt) versio
 
 
 ```
-python3 -m tugpgp
+briefcase dev
 ```
 
 ![](./images/tugpgp_01.png)

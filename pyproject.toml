@@ -1,0 +1,49 @@
+[tool.briefcase]
+project_name = "Tugpgp"
+bundle = "in.kushaldas.tugpgp"
+version = "0.0.1"
+url = "https://github.com/SUNET/tugpgp"
+license = "GNU General Public License v3 or later (GPLv3+)"
+author = 'Kushal Das'
+author_email = "kushal@sunet.se"
+
+[tool.briefcase.app.tugpgp]
+formal_name = "Tugpgp"
+description = "OpenPGP key generation and Yubikey upload tool"
+icon = "src/tugpgp/resources/tugpgp"
+sources = ['src/tugpgp']
+requires = [
+    'pyside6>=6.2.4',
+    'johnnycanencrypt>=0.11.0',
+]
+
+
+[tool.briefcase.app.tugpgp.macOS]
+requires = [
+    'std-nslog~=1.0.0'
+]
+
+[tool.briefcase.app.tugpgp.linux]
+requires = []
+
+[tool.briefcase.app.tugpgp.linux.appimage]
+system_requires = []
+linuxdeploy_plugins = []
+
+[tool.briefcase.app.tugpgp.linux.flatpak]
+flatpak_runtime = 'org.kde.Platform'
+flatpak_runtime_version = '6.3'
+flatpak_sdk = 'org.kde.Sdk'
+
+[tool.briefcase.app.tugpgp.windows]
+requires = []
+
+# Mobile deployments
+[tool.briefcase.app.tugpgp.iOS]
+supported = false
+
+[tool.briefcase.app.tugpgp.android]
+supported = false
+
+[tool.briefcase.app.tugpgp.web]
+supported = false
