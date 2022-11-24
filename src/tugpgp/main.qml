@@ -80,7 +80,9 @@ ApplicationWindow {
 
     Component {
         id: startView
-        Start {}
+        Start {
+            onClicked: stack.push(mainView)
+        }
     }
 
     Component {

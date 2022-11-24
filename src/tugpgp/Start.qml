@@ -2,6 +2,7 @@ import QtQuick
 
 Rectangle {
     id: root
+    signal clicked
 
     Text {
         width: 400
@@ -19,5 +20,7 @@ Rectangle {
             rightMargin: 20
         }
         text: "Next"
+
+        onClicked: root.clicked()
     }
 }
