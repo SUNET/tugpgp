@@ -1,0 +1,3 @@
+{
+    "files": ["__init__.py","app.py","__main__.py","main.qml","Start.qml","TButton.qml"]
+}

@@ -2,24 +2,11 @@
 OpenPGP key generation and Yubikey upload tool
 """
 import sys
+from importlib import metadata as importlib_metadata
+from pathlib import Path
 
-try:
-    from importlib import metadata as importlib_metadata
-except ImportError:
-    # Backwards compatibility - importlib.metadata was added in Python 3.8
-    import importlib_metadata
-
-from PySide6 import QtWidgets
-
-
-class Tugpgp(QtWidgets.QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.init_ui()
-
-    def init_ui(self):
-        self.setWindowTitle('tugpgp')
-        self.show()
+from PySide6.QtGui import QGuiApplication
+from PySide6.QtQml import QQmlApplicationEngine
 
 
 def main():
@@ -36,9 +23,14 @@ def main():
     app_module = sys.modules['__main__'].__package__
     # Retrieve the app's metadata
     metadata = importlib_metadata.metadata(app_module)
-
-    QtWidgets.QApplication.setApplicationName(metadata['Formal-Name'])
-
-    app = QtWidgets.QApplication(sys.argv)
-    main_window = Tugpgp()
+    app = QGuiApplication(sys.argv)
+    engine = QQmlApplicationEngine()
+    qml_file = Path(__file__).resolve().parent / "main.qml"
+    engine.load(qml_file)
+    if not engine.rootObjects():
+        sys.exit(-1)
     sys.exit(app.exec())
+    #QtWidgets.QApplication.setApplicationName(metadata['Formal-Name'])
+
+if __name__ == "__main__":
+    main()
