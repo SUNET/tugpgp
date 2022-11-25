@@ -81,7 +81,18 @@ ApplicationWindow {
     Component {
         id: startView
         Start {
-            onClicked: stack.push(mainView)
+            onClicked: stack.push(userView)
+        }
+    }
+
+    Component {
+        id: userView
+        UserDetails {
+            onNext: {
+                console.log("Next clicked")
+                console.log(userName)
+                console.log(emails)
+            }
         }
     }
 
