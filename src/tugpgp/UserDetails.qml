@@ -37,7 +37,7 @@ Rectangle {
             background: Rectangle {
                 color: "white"
                 radius: 5
-                border.color: "orange"
+                border.color: "#ca402b"
             }
         }
         Text {
@@ -56,7 +56,7 @@ Rectangle {
             background: Rectangle {
                 color: "white"
                 radius: 5
-                border.color: "orange"
+                border.color: "#ca402b"
             }
         }
     }

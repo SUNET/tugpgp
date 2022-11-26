@@ -78,6 +78,14 @@ ApplicationWindow {
         }
     }
 
+    Connections {
+        target: process
+        function onUpdated() {
+            console.log("Inside of QML")
+            stack.push(mainView)
+        }
+    }
+
     Component {
         id: startView
         Start {
@@ -89,10 +97,17 @@ ApplicationWindow {
         id: userView
         UserDetails {
             onNext: {
-                console.log("Next clicked")
-                console.log(userName)
-                console.log(emails)
+                stack.push(waitView)
+                // Now start the key generation process
+                process.generateKey()
             }
+        }
+    }
+
+    Component {
+        id: waitView
+        WaitGlass {
+            text: "Wait while we generate the key."
         }
     }
 

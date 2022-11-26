@@ -4,9 +4,44 @@ OpenPGP key generation and Yubikey upload tool
 import sys
 from importlib import metadata as importlib_metadata
 from pathlib import Path
+import time
 
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlApplicationEngine
+from PySide6.QtCore import QThread, Signal, Slot, QObject
+
+class KeyThread(QThread):
+    updated = Signal()
+
+    def __init__(self):
+        QThread.__init__(self)
+
+    # run method gets called when we start the thread
+    # This is where we will generate the OpenPGP key
+    def run(self):
+        print("Process started")
+        time.sleep(5)
+        print("Now we can go to next screen")
+        self.updated.emit()
+
+
+class Process(QObject):
+    "Main process class for the key generation steps"
+    updated = Signal()
+
+    def __init__(self):
+        super(Process, self).__init__(None)
+        self.kt = KeyThread()
+        self.kt.updated.connect(self.keygenerated   )
+
+    @Slot()
+    def keygenerated(self):
+        self.updated.emit()
+
+    @Slot()
+    def generateKey(self):
+        self.kt.start()
+
 
 
 def main():
@@ -25,6 +60,10 @@ def main():
     metadata = importlib_metadata.metadata(app_module)
     app = QGuiApplication(sys.argv)
     engine = QQmlApplicationEngine()
+    # We store the user progress in this p object.
+    p = Process()
+    ctx = engine.rootContext()
+    ctx.setContextProperty("process", p)
     qml_file = Path(__file__).resolve().parent / "main.qml"
     engine.load(qml_file)
     if not engine.rootObjects():
