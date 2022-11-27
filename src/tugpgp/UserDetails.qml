@@ -19,7 +19,7 @@ Rectangle {
 
         Item {
             width: parent.width
-            height: 150
+            height: 100
         }
 
         Text {
@@ -50,6 +50,25 @@ Rectangle {
             id: emailsEdit
             width: 550
             height: 200
+            bottomPadding: 10
+
+            font.pixelSize: 20
+            background: Rectangle {
+                color: "white"
+                radius: 5
+                border.color: "#ca402b"
+            }
+        }
+        Text {
+            text: "Password for the secret key"
+            bottomPadding: 10
+            font.pixelSize: 25
+        }
+        TextField {
+            id: passwordTxt
+            echoMode: TextInput.Password
+            width: 550
+            height: 40
             bottomPadding: 10
 
             font.pixelSize: 20
