@@ -81,8 +81,7 @@ ApplicationWindow {
     Connections {
         target: process
         function onUpdated() {
-            console.log("Inside of QML")
-            stack.push(mainView)
+            stack.push(publicSaveView)
         }
     }
 
@@ -108,6 +107,33 @@ ApplicationWindow {
         id: waitView
         WaitGlass {
             text: "Wait while we generate the key."
+        }
+    }
+
+    Component {
+        id: publicSaveView
+        SaveDir {
+            fileName: process.PublicKey
+            onSaved: {
+                stack.push(secretSaveView)
+            }
+            onSkipped: {
+                console.log("Next clicked")
+            }
+        }
+    }
+
+    Component {
+        id: secretSaveView
+        SaveDir {
+            secret: true
+            fileName: process.SecretKey
+            onSaved: {
+                console.log("Saveing secret key at: " + dir)
+            }
+            onSkipped: {
+                console.log("Next clicked")
+            }
         }
     }
 
