@@ -14,6 +14,7 @@ from PySide6.QtCore import QThread, Signal, Slot, QObject, Property
 from johnnycanencrypt import Cipher
 import johnnycanencrypt.johnnycanencrypt as rjce
 
+
 def next_year(d, years: int):
     "Adds the given years to the given datetime"
     try:
@@ -22,25 +23,27 @@ def next_year(d, years: int):
         # For February 29th situation
         return d.replace(year=d.year + years, day=28)
 
+
 class YubiThread(QThread):
-     uploaded = Signal()
+    uploaded = Signal()
 
-     def __init__(self):
-         QThread.__init__(self)
-         self.password =  ""
-         self.secret = ""
+    def __init__(self):
+        QThread.__init__(self)
+        self.password = ""
+        self.secret = ""
 
-     def run(self):
-         # TODO: Handle exception here
-         # First upload the primary key
-         rjce.upload_primary_to_smartcard(
-                    self.secret.encode("utf-8"), b"12345678", self.password, whichslot=2
-                )
-         # now upload the subkeys
-         rjce.upload_to_smartcard(
-              self.secret.encode("utf-8"), b"12345678", self.password, whichkeys=5
-         )
-         self.uploaded.emit()
+    def run(self):
+        # TODO: Handle exception here
+        # First upload the primary key
+        rjce.upload_primary_to_smartcard(
+            self.secret.encode("utf-8"), b"12345678", self.password, whichslot=2
+        )
+        # now upload the subkeys
+        rjce.upload_to_smartcard(
+            self.secret.encode("utf-8"), b"12345678", self.password, whichkeys=5
+        )
+        self.uploaded.emit()
+
 
 class KeyThread(QThread):
     updated = Signal()
@@ -54,7 +57,6 @@ class KeyThread(QThread):
         self.secret = None
         self.fingerprint = None
 
-
     # run method gets called when we start the thread
     # This is where we will generate the OpenPGP key
     def run(self):
@@ -62,16 +64,16 @@ class KeyThread(QThread):
         expiration = next_year(now, 1)
         # Process started to generate a new key
         public, secret, fingerprint = rjce.create_key(
-                    self.password,
-                    self.uids,
-                    Cipher.RSA4k.value,
-                    int(now.timestamp()),
-                    int(expiration.timestamp()),
-                    True,
-                    5,
-                    True,
-                    True,
-                )
+            self.password,
+            self.uids,
+            Cipher.RSA4k.value,
+            int(now.timestamp()),
+            int(expiration.timestamp()),
+            True,
+            5,
+            True,
+            True,
+        )
         self.public = public
         self.secret = secret
         self.fingerprint = fingerprint
@@ -153,7 +155,6 @@ class Process(QObject):
 
         return True
 
-
     # This is the property exposed to QML
     PublicKey = Property(str, read_public_key, None)
     SecretKey = Property(str, read_secret_key, None)
@@ -170,7 +171,7 @@ def main():
     # this is set with setApplicationName().
 
     # Find the name of the module that was used to start the app
-    app_module = sys.modules['__main__'].__package__
+    app_module = sys.modules["__main__"].__package__
     # Retrieve the app's metadata
     metadata = importlib_metadata.metadata(app_module)
     app = QGuiApplication(sys.argv)
@@ -184,7 +185,8 @@ def main():
     if not engine.rootObjects():
         sys.exit(-1)
     sys.exit(app.exec())
-    #QtWidgets.QApplication.setApplicationName(metadata['Formal-Name'])
+    # QtWidgets.QApplication.setApplicationName(metadata['Formal-Name'])
+
 
 if __name__ == "__main__":
     main()
