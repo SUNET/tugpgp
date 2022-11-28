@@ -7,8 +7,6 @@ Under active development.
 
 ### LICENSE: GPL-3.0-or-later
 
-## Install the dependencies
-
 
 ### Next create the virtualenv
 
