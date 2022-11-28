@@ -28,23 +28,5 @@ We need [johnnycanencrypt](https://github.com/kushaldas/johnnycanencrypt) versio
 briefcase dev
 ```
 
-![](./images/tugpgp_01.png)
-
-
-### To turn off or on touch policy of the authentication in Yubikey
-
-
-```
-python -m tugpgp --touch-auth-off
-Admin pin of the Yubikey: 
-Your Yubikey's touch policy is now changed.
-```
-
-To turn on again
-
-```
-python -m tugpgp --touch-auth-on
-Admin pin of the Yubikey: 
-Your Yubikey's touch policy is now changed.
-```
+![](./images/tugpgp_final_screen.png)
 
