@@ -2,13 +2,15 @@ import QtQuick
 
 Rectangle {
     id: root
+    color: "white"
     signal clicked
 
     Text {
         width: 400
         height: 200
         anchors.centerIn: parent
-        text: "Welcome to Tugpgp, make sure that you have a Yubikey ready.\nClick next to begin the process."
+        text: qsTr("Welcome to Tugpgp.\nClick next to begin the process.")
+        font.pixelSize: 25
     }
 
     TButton {
@@ -19,7 +21,7 @@ Rectangle {
             right: parent.right
             rightMargin: 20
         }
-        text: "Next"
+        text: qsTr("Next")
 
         onClicked: root.clicked()
     }

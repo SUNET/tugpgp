@@ -117,9 +117,6 @@ ApplicationWindow {
             onSaved: {
                 stack.push(secretSaveView)
             }
-            onSkipped: {
-                console.log("Next clicked")
-            }
         }
     }
 
@@ -130,61 +127,36 @@ ApplicationWindow {
             fileName: process.SecretKey
             onSaved: {
                 console.log("Saveing secret key at: " + dir)
+                stack.push(userPinsView)
             }
             onSkipped: {
-                console.log("Next clicked")
+                stack.push(userPinsView)
             }
         }
     }
 
     Component {
-        id: mainView
-
-        Row {
-            spacing: 10
-
-            Button {
-                text: "Push"
-                onClicked: stack.push(secondView)
-            }
-            Button {
-                text: "Pop"
-                enabled: stack.depth > 1
-                onClicked: stack.pop()
-            }
-            Text {
-                text: stack.depth
+        id: userPinsView
+        Pins {
+            user: true
+            onNext: {
+                stack.push(adminPinsView)
             }
         }
     }
+
     Component {
-        id: secondView
-
-        Row {
-            spacing: 10
-
-            Rectangle {
-                width: sTxt.implicitWidth
-                height: 30
-                color: "yellow"
-                Text {
-                    id: sTxt
-                    text: "second view"
-                }
-            }
-
-            Button {
-                text: "Push"
-                onClicked: stack.push(mainView)
-            }
-            Button {
-                text: "Pop"
-                enabled: stack.depth > 1
-                onClicked: stack.pop()
-            }
-            Text {
-                text: stack.depth
+        id: adminPinsView
+        Pins {
+            user: false
+            onNext: {
+                stack.push(finalView)
             }
         }
+    }
+
+    Component {
+        id: finalView
+        Final {}
     }
 }
