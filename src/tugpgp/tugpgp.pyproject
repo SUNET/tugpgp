@@ -1,3 +1,3 @@
 {
-    "files": ["__main__.py","SaveDir.qml","UserDetails.qml","Pins.qml","app.py","TButton.qml","main.qml","WaitGlass.qml","__init__.py","Start.qml","Final.qml","Yubikey.qml"]
+    "files": ["__main__.py","SaveDir.qml","UserDetails.qml","Pins.qml","app.py","TButton.qml","main.qml","Yubikey.qml","WaitGlass.qml","__init__.py","Start.qml","Final.qml","UploadSucess.qml"]
 }

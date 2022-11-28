@@ -56,7 +56,7 @@ Rectangle {
             if (!process.is_connected()) {
                 badTxt.visible = true
             } else {
-                console.log("We go")
+                root.next()
             }
         }
     }

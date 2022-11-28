@@ -39,7 +39,7 @@ ApplicationWindow {
 
             StackView {
                 id: stack
-                initialItem: startView
+                initialItem: finalView
                 anchors.fill: parent
 
                 pushEnter: Transition {
@@ -81,7 +81,13 @@ ApplicationWindow {
     Connections {
         target: process
         function onUpdated() {
-            stack.push(publicSaveView)
+            stack.push(ykView)
+        }
+    }
+    Connections {
+        target: process
+        function onUploaded() {
+            stack.push(uploadSuccessView)
         }
     }
 
@@ -126,7 +132,6 @@ ApplicationWindow {
             secret: true
             fileName: process.SecretKey
             onSaved: {
-                console.log("Saveing secret key at: " + dir)
                 stack.push(userPinsView)
             }
             onSkipped: {
@@ -157,7 +162,29 @@ ApplicationWindow {
 
     Component {
         id: ykView
-        Yubikey {}
+        Yubikey {
+            onNext: {
+                stack.push(ykwaitView)
+                // Now upload the key to Yubikey
+                process.uploadYubikey()
+            }
+        }
+    }
+
+    Component {
+        id: ykwaitView
+        WaitGlass {
+            text: "Wait while we upload the key to Yubikey."
+        }
+    }
+
+    Component {
+        id: uploadSuccessView
+        UploadSucess {
+            onNext: {
+                stack.push(publicSaveView)
+            }
+        }
     }
 
     Component {

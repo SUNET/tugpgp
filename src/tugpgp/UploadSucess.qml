@@ -3,6 +3,7 @@ import QtQuick.Layouts
 
 Rectangle {
     id: root
+    signal next
 
     RowLayout {
         //spacing: 10
@@ -10,7 +11,7 @@ Rectangle {
 
         Image {
             id: checkLogo
-            source: "check-big.svg"
+            source: "upload_success.svg"
             Layout.preferredWidth: 120
             Layout.preferredHeight: 120
             anchors.verticalCenter: Layout.verticalCenter
@@ -18,7 +19,7 @@ Rectangle {
 
         Text {
             width: 200
-            text: qsTr("Your Yubikey is now ready.")
+            text: qsTr("Upload successful. Click next.")
             font.pixelSize: 25
             anchors.verticalCenter: Layout.verticalCenter
         }
@@ -32,8 +33,8 @@ Rectangle {
             right: parent.right
             rightMargin: 20
         }
-        text: qsTr("Done")
+        text: qsTr("Next")
 
-        onClicked: Qt.callLater(Qt.quit)
+        onClicked: root.next()
     }
 }

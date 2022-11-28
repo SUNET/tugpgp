@@ -54,7 +54,7 @@ Rectangle {
                     border.color: "#ca402b"
                 }
 
-                text: folderDialog.folder
+                text: getName()
             }
 
             TButton {
@@ -73,16 +73,25 @@ Rectangle {
             spacing: 5
             Text {
                 id: resultMainTxt
-                text: secret ? qsTr("Secret Key:") : qsTr("Public Key")
+                text: secret ? qsTr("Secret Key filename: ") : qsTr(
+                                   "Public Key filename: ")
                 bottomPadding: 10
-                font.pixelSize: 25
+                font.pixelSize: 15
             }
             Text {
                 id: resultTxt
                 text: fileName
                 bottomPadding: 10
-                font.pixelSize: 25
+                font.pixelSize: 15
             }
+        }
+        Text {
+            id: errorTxt
+            text: qsTr("Error while saving the file.")
+            bottomPadding: 10
+            font.pixelSize: 30
+            color: "red"
+            visible: false
         }
     }
 
@@ -100,8 +109,12 @@ Rectangle {
             id: saveButton
             text: qsTr("Save")
             onClicked: {
-                process.savePublicKey(dirTxt.text)
-                root.saved()
+                console.log("Save clicked")
+                if (process.saveKey(dirTxt.text, root.secret)) {
+                    root.saved()
+                } else {
+                    errorTxt.visible = true
+                }
             }
         }
 
@@ -114,5 +127,9 @@ Rectangle {
                 root.skipped()
             }
         }
+    }
+    function getName() {
+        var u = new URL(folderDialog.folder)
+        return u.pathname
     }
 }
