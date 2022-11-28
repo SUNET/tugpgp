@@ -6,6 +6,7 @@ Rectangle {
     id: root
     color: "white"
     property bool user: true
+    property int clength: user ? 6 : 8
     signal next
 
     Column {
@@ -47,6 +48,7 @@ Rectangle {
             id: repeatTxt
             text: user ? qsTr("Repeat User Pin") : qsTr("Repeat Admin Pin")
             bottomPadding: 10
+            topPadding: 10
             font.pixelSize: 25
         }
         TextField {
@@ -63,6 +65,23 @@ Rectangle {
                 border.color: "#ca402b"
             }
         }
+        Text {
+            id: wrongTxt
+            text: qsTr("Pins do not match.")
+            bottomPadding: 10
+            font.pixelSize: 25
+            color: "red"
+            visible: false
+        }
+        Text {
+            id: lessTxt
+            text: user ? qsTr("We need 6 characters at least.") : qsTr(
+                             "We need 8 characters at least.")
+            bottomPadding: 10
+            font.pixelSize: 25
+            color: "red"
+            visible: false
+        }
     }
 
     TButton {
@@ -73,8 +92,22 @@ Rectangle {
             right: root.right
             rightMargin: 20
         }
-        text: "Next"
+        text: qsTr("Next")
 
-        onClicked: root.next()
+        onClicked: {
+            // First clear all old errors
+            lessTxt.visible = false
+            wrongTxt.visible = false
+
+            // Then check for the length of the pin
+            if (passTxt.text.length < clength) {
+                lessTxt.visible = true
+            } else if (passTxt.text != pass2Txt.text) {
+                // Here we are making sure that the pins match
+                wrongTxt.visible = true
+            } else {
+                root.next()
+            }
+        }
     }
 }

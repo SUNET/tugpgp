@@ -9,6 +9,7 @@ import time
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlApplicationEngine
 from PySide6.QtCore import QThread, Signal, Slot, QObject, Property
+import johnnycanencrypt.johnnycanencrypt as rjce
 
 class KeyThread(QThread):
     updated = Signal()
@@ -51,6 +52,11 @@ class Process(QObject):
     @Slot()
     def generateKey(self):
         self.kt.start()
+
+    @Slot(result=bool)
+    def is_connected(self):
+        "Checks if the Yubikey is connected or not"
+        return rjce.is_smartcard_connected()
 
     @Slot(str)
     def savePublicKey(self, pub_dir):
