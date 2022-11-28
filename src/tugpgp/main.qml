@@ -39,7 +39,7 @@ ApplicationWindow {
 
             StackView {
                 id: stack
-                initialItem: finalView
+                initialItem: startView
                 anchors.fill: parent
 
                 pushEnter: Transition {
@@ -112,7 +112,7 @@ ApplicationWindow {
     Component {
         id: waitView
         WaitGlass {
-            text: "Wait while we generate the key."
+            text: qsTr("Wait while we generate the key.")
         }
     }
 
@@ -174,7 +174,7 @@ ApplicationWindow {
     Component {
         id: ykwaitView
         WaitGlass {
-            text: "Wait while we upload the key to Yubikey."
+            text: qsTr("Wait while we upload the key to Yubikey.")
         }
     }
 
