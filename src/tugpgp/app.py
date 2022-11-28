@@ -16,13 +16,33 @@ class KeyThread(QThread):
 
     def __init__(self):
         QThread.__init__(self)
+        self.name = ""
+        self.uids = []
+        self.password = ""
+        self.public = None
+        self.secret = None
+        self.fingerprint = None
+
 
     # run method gets called when we start the thread
     # This is where we will generate the OpenPGP key
     def run(self):
-        print("Process started")
-        time.sleep(1)
-        print("Now we can go to next screen")
+        # Process started to generate a new key
+        public, secret, fingerprint = rjce.create_key(
+                    key_password,
+                    uids,
+                    Cipher.RSA4k.value,
+                    int(now.timestamp()),
+                    int(expiration.timestamp()),
+                    True,
+                    5,
+                    True,
+                    True,
+                )
+        self.public = public
+        self.secret = secret
+        self.fingerprint = fingerprint
+        # Now we can go to next screen
         self.updated.emit()
 
 
@@ -49,8 +69,12 @@ class Process(QObject):
     def keygenerated(self):
         self.updated.emit()
 
-    @Slot()
-    def generateKey(self):
+    @Slot(str, str, str)
+    def generateKey(self, name, qemails, password):
+        emails = [email.strip() for email in qemails.split("\n")]
+        self.uids = [f"{name} <{email}>" for email in emails]
+        self.name = name
+        self.password = password
         self.kt.start()
 
     @Slot(result=bool)

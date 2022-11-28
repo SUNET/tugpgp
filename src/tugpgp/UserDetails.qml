@@ -6,8 +6,9 @@ Rectangle {
     id: root
     signal next
 
-    property alias userName: userTxt.text
-    property alias emails: emailsEdit.text
+    property alias username: userTxt.text
+    property alias emails: emailsTxt.text
+    property alias password: passwordTxt.text
 
     //color: "seagreen"
     Column {
@@ -47,7 +48,7 @@ Rectangle {
             font.pixelSize: 25
         }
         TextArea {
-            id: emailsEdit
+            id: emailsTxt
             width: 550
             height: 200
             bottomPadding: 10

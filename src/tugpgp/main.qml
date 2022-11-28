@@ -98,7 +98,7 @@ ApplicationWindow {
             onNext: {
                 stack.push(waitView)
                 // Now start the key generation process
-                process.generateKey()
+                process.generateKey(username, emails, password)
             }
         }
     }
@@ -153,6 +153,11 @@ ApplicationWindow {
                 stack.push(finalView)
             }
         }
+    }
+
+    Component {
+        id: ykView
+        Yubikey {}
     }
 
     Component {
