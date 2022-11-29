@@ -26,6 +26,7 @@ def next_year(d, years: int):
 
 class YubiThread(QThread):
     uploaded = Signal()
+    errored = Signal()
 
     def __init__(self):
         QThread.__init__(self)
@@ -33,16 +34,20 @@ class YubiThread(QThread):
         self.secret = ""
 
     def run(self):
-        # TODO: Handle exception here
-        # First upload the primary key
-        rjce.upload_primary_to_smartcard(
-            self.secret.encode("utf-8"), b"12345678", self.password, whichslot=2
-        )
-        # now upload the subkeys
-        rjce.upload_to_smartcard(
-            self.secret.encode("utf-8"), b"12345678", self.password, whichkeys=5
-        )
-        self.uploaded.emit()
+        try:
+            # First reset the key
+            rjce.reset_yubikey()
+            # Upload the primary key
+            rjce.upload_primary_to_smartcard(
+                self.secret.encode("utf-8"), b"12345678", self.password, whichslot=2
+            )
+            # now upload the subkeys
+            rjce.upload_to_smartcard(
+                self.secret.encode("utf-8"), b"12345678", self.password, whichkeys=5
+            )
+            self.uploaded.emit()
+        except:
+            self.errored.emit()
 
 
 class KeyThread(QThread):
@@ -85,6 +90,7 @@ class Process(QObject):
     "Main process class for the key generation steps"
     updated = Signal()
     uploaded = Signal()
+    errored = Signal()
 
     def __init__(self):
         super(Process, self).__init__(None)
@@ -94,6 +100,7 @@ class Process(QObject):
         self.kt.updated.connect(self.keygenerated)
         self.yt = YubiThread()
         self.yt.uploaded.connect(self.keyuploaded)
+        self.yt.errored.connect(self.handle_error)
 
     def read_public_key(self):
         "To read the value of public_key in QML"
@@ -116,6 +123,11 @@ class Process(QObject):
     def keyuploaded(self):
         "To take the internal thread and pass on"
         self.uploaded.emit()
+
+    @Slot()
+    def handle_error(self):
+        "We have an error"
+        self.errored.emit()
 
     @Slot(str, str, str)
     def generateKey(self, name, qemails, password):

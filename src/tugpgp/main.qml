@@ -90,6 +90,13 @@ ApplicationWindow {
             stack.push(uploadSuccessView)
         }
     }
+    // The following will show the errors view and then close the Application
+    Connections {
+        target: process
+        function onErrored() {
+            stack.push(errorsView)
+        }
+    }
 
     Component {
         id: startView
@@ -190,5 +197,10 @@ ApplicationWindow {
     Component {
         id: finalView
         Final {}
+    }
+
+    Component {
+        id: errorsView
+        Errors {}
     }
 }
