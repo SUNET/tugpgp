@@ -39,7 +39,7 @@ ApplicationWindow {
 
             StackView {
                 id: stack
-                initialItem: startView
+                initialItem: userPinsView
                 anchors.fill: parent
 
                 pushEnter: Transition {
@@ -152,6 +152,7 @@ ApplicationWindow {
         Pins {
             user: true
             onNext: {
+                process.save_userpin(pin)
                 stack.push(adminPinsView)
             }
         }
@@ -162,6 +163,7 @@ ApplicationWindow {
         Pins {
             user: false
             onNext: {
+                process.save_adminpin(pin)
                 stack.push(finalView)
             }
         }

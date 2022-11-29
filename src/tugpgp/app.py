@@ -129,6 +129,22 @@ class Process(QObject):
         "We have an error"
         self.errored.emit()
 
+    @Slot(str)
+    def save_userpin(self, pin):
+        "Saves the new pin for Yubikey"
+        try:
+            rjce.change_user_pin(b"12345678", pin.encode("utf-8"))
+        except:
+            self.errored.emit()
+
+    @Slot(str)
+    def save_adminpin(self, pin):
+        "Saves the new pin for Yubikey"
+        try:
+            rjce.change_admin_pin(b"12345678", pin.encode("utf-8"))
+        except:
+            self.errored.emit()
+
     @Slot(str, str, str)
     def generateKey(self, name, qemails, password):
         emails = [email.strip() for email in qemails.split("\n")]
