@@ -39,7 +39,7 @@ ApplicationWindow {
 
             StackView {
                 id: stack
-                initialItem: userPinsView
+                initialItem: startView
                 anchors.fill: parent
 
                 pushEnter: Transition {

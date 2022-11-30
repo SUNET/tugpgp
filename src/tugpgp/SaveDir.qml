@@ -109,7 +109,6 @@ Rectangle {
             id: saveButton
             text: qsTr("Save")
             onClicked: {
-                console.log("Save clicked")
                 if (process.saveKey(dirTxt.text, root.secret)) {
                     root.saved()
                 } else {
