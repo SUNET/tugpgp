@@ -90,6 +90,13 @@ ApplicationWindow {
             stack.push(uploadSuccessView)
         }
     }
+    // The following will show the errors view and then close the Application
+    Connections {
+        target: process
+        function onErrored() {
+            stack.push(errorsView)
+        }
+    }
 
     Component {
         id: startView
@@ -145,6 +152,7 @@ ApplicationWindow {
         Pins {
             user: true
             onNext: {
+                process.save_userpin(pin)
                 stack.push(adminPinsView)
             }
         }
@@ -155,6 +163,7 @@ ApplicationWindow {
         Pins {
             user: false
             onNext: {
+                process.save_adminpin(pin)
                 stack.push(finalView)
             }
         }
@@ -190,5 +199,10 @@ ApplicationWindow {
     Component {
         id: finalView
         Final {}
+    }
+
+    Component {
+        id: errorsView
+        Errors {}
     }
 }

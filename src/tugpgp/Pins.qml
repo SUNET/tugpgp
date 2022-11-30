@@ -7,6 +7,7 @@ Rectangle {
     color: "white"
     property bool user: true
     property int clength: user ? 6 : 8
+    property alias pin: passTxt.text
     signal next
 
     Column {
