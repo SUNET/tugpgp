@@ -10,7 +10,7 @@ author_email = "kushal@sunet.se"
 [tool.briefcase.app.tugpgp]
 formal_name = "Tugpgp"
 description = "OpenPGP key generation and Yubikey upload tool"
-icon = "src/tugpgp/resources/tugpgp"
+icon = "images/in.kushaldas.tugpgp"
 sources = ['src/tugpgp']
 requires = [
     'pyside6>=6.2.4',
