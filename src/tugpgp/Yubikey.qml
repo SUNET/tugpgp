@@ -1,11 +1,13 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
 
 Rectangle {
 
     id: root
     signal next
     property alias text: mainTxt.text
+    property bool dclick: false
 
     //color: "seagreen"
     Column {
@@ -41,6 +43,35 @@ Rectangle {
             color: "red"
             visible: false
         }
+
+        Rectangle {
+
+            id: doubleCheck
+            color: "#f9b700"
+            radius: 4
+            visible: false
+
+            width: mainTxt.width
+            height: 120
+
+            RowLayout {
+                anchors.centerIn: parent
+                Image {
+                    id: warningLogo
+                    source: "warning.svg"
+                    Layout.preferredWidth: 100
+                    Layout.preferredHeight: 100
+                    anchors.verticalCenter: Layout.verticalCenter
+                }
+
+                Text {
+                    width: 200
+                    text: qsTr("Please make sure that only the correct\nYubikey is attached and then click upload\nbutton.")
+                    font.pixelSize: 20
+                    anchors.verticalCenter: Layout.verticalCenter
+                }
+            }
+        }
     }
     TButton {
         id: nextButton
@@ -56,7 +87,17 @@ Rectangle {
             if (!process.is_connected()) {
                 badTxt.visible = true
             } else {
-                root.next()
+                if (!dclick) {
+                    // This is the first click.
+                    dclick = true
+                    doubleCheck.visible = true
+                    mainTxt.visible = false
+                    nextButton.text = qsTr("Upload")
+                } else {
+                    // This is the user clicking next button second time
+                    // We have the correct clicks
+                    root.next()
+                }
             }
         }
     }

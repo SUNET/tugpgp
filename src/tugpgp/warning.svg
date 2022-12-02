@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="1200pt"
+   height="1200pt"
+   version="1.1"
+   viewBox="0 0 1200 1200"
+   id="svg4"
+   sodipodi:docname="warning.svg"
+   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs8" />
+  <sodipodi:namedview
+     id="namedview6"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="pt"
+     showgrid="false"
+     inkscape:zoom="0.641875"
+     inkscape:cx="763.38851"
+     inkscape:cy="800"
+     inkscape:window-width="3840"
+     inkscape:window-height="2091"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg4" />
+  <path
+     d="m600 320.39c-19.902 0-37.875 10.176-47.941 27.395l-261.9 448.94c-10.066 17.27-10.09 38.008 0 55.262 10.094 17.254 27.996 27.68 47.941 27.633h522.62c19.953 0.074218 38.375-9.2656 49.121-27.633 10.094-17.254 10.074-37.992 0-55.262l-261.9-448.94c-10.066-17.219-28.039-27.395-47.941-27.395zm0 45.344c2.9727 0 7.3477 2.5781 8.7383 4.9609l261.9 448.94c1.3906 2.3828 1.3945 7.3008 0 9.6836-0.74219 1.2695-6.9492 4.9688-9.918 4.9609h-522.62c-2.9766 0.007812-7.3438-2.5781-8.7383-4.9609-1.3945-2.3828-1.3906-7.2969 0-9.6836l261.9-448.94c1.3906-2.3789 5.7656-4.9609 8.7383-4.9609zm0 120.91c-12.52 0-22.672 10.152-22.672 22.672v181.37c0 12.52 10.152 22.672 22.672 22.672s22.672-10.148 22.672-22.672v-181.37c0-12.52-10.148-22.672-22.672-22.672zm0 256.95c-16.695 0-30.23 13.535-30.23 30.23 0 16.695 13.535 30.23 30.23 30.23s30.23-13.535 30.23-30.23c0-16.695-13.535-30.23-30.23-30.23z"
+     fill="#ff001b"
+     id="path2"
+     style="fill:#2b0000" />
+</svg>
