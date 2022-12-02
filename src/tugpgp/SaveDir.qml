@@ -48,6 +48,8 @@ Rectangle {
                 bottomPadding: 10
 
                 font.pixelSize: 20
+                color: "black"
+
                 background: Rectangle {
                     color: "white"
                     radius: 5
