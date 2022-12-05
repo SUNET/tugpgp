@@ -92,6 +92,7 @@ Rectangle {
                     dclick = true
                     doubleCheck.visible = true
                     mainTxt.visible = false
+                    badTxt.visible = false
                     nextButton.text = qsTr("Upload")
                 } else {
                     // This is the user clicking next button second time
