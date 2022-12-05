@@ -39,6 +39,7 @@ Rectangle {
             echoMode: TextInput.Password
 
             font.pixelSize: 20
+            color: "black"
             background: Rectangle {
                 color: "white"
                 radius: 5
@@ -60,6 +61,8 @@ Rectangle {
             echoMode: TextInput.Password
 
             font.pixelSize: 20
+            color: "black"
+
             background: Rectangle {
                 color: "white"
                 radius: 5

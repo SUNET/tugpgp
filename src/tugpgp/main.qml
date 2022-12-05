@@ -10,6 +10,9 @@ ApplicationWindow {
 
     id: root
 
+    // This defines if we will allow saving private key
+    property bool allowsecret: false
+
     SplitView {
         anchors.fill: parent
 
@@ -128,7 +131,12 @@ ApplicationWindow {
         SaveDir {
             fileName: process.PublicKey
             onSaved: {
-                stack.push(secretSaveView)
+                // To save secret key if allowed
+                if (allowsecret) {
+                    stack.push(secretSaveView)
+                } else {
+                    stack.push(userPinsView)
+                }
             }
         }
     }
