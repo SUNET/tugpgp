@@ -6,6 +6,7 @@ import sys
 from importlib import metadata as importlib_metadata
 from pathlib import Path
 import datetime
+import argparse
 
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlApplicationEngine
@@ -199,6 +200,12 @@ def main():
     # this is set with setApplicationName().
 
     # Find the name of the module that was used to start the app
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--allow-private", action="store_true", help="Allows saving private key."
+    )
+    args = parser.parse_args()
+
     app_module = sys.modules["__main__"].__package__
     # Retrieve the app's metadata
     metadata = importlib_metadata.metadata(app_module)
@@ -212,6 +219,10 @@ def main():
     engine.load(qml_file)
     if not engine.rootObjects():
         sys.exit(-1)
+    # To allow saving private key
+    if args.allow_private:
+        r = engine.rootObjects()[0]
+        r.setProperty("allowsecret", True)
     sys.exit(app.exec())
     # QtWidgets.QApplication.setApplicationName(metadata['Formal-Name'])
 

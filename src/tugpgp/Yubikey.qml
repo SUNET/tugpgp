@@ -65,7 +65,7 @@ Rectangle {
                 }
 
                 Text {
-                    width: 200
+                    width: 220
                     text: qsTr("Please make sure that only the correct\nYubikey is attached and then click upload\nbutton.")
                     font.pixelSize: 20
                     anchors.verticalCenter: Layout.verticalCenter
