@@ -151,6 +151,7 @@ class Process(QObject):
         emails = [email.strip() for email in qemails.split("\n")]
         self.uids = [f"{name} <{email}>" for email in emails]
         self.name = name
+        self.kt.uids = self.uids
         self.password = password.strip()
         self.kt.password = self.password
         self.kt.start()
