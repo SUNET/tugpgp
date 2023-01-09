@@ -1,5 +1,11 @@
 # Changelog
 
+## [unreleased]
+
+### Fixed
+
+- UIDs are now properly set in the key #7.
+
 ## [0.0.3] - 2022-12-05
 
 ### Added
