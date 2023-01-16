@@ -15,6 +15,8 @@ from PySide6.QtCore import QThread, Signal, Slot, QObject, Property
 from johnnycanencrypt import Cipher
 import johnnycanencrypt.johnnycanencrypt as rjce
 
+# The default admin pin of Yubikey
+ADMIN_PIN = b"12345678"
 
 def next_year(d, years: int):
     "Adds the given years to the given datetime"
@@ -40,16 +42,16 @@ class YubiThread(QThread):
             rjce.reset_yubikey()
             # Upload the primary key
             rjce.upload_primary_to_smartcard(
-                self.secret.encode("utf-8"), b"12345678", self.password, whichslot=2
+                self.secret.encode("utf-8"), ADMIN_PIN, self.password, whichslot=2
             )
             # now upload the subkeys
             rjce.upload_to_smartcard(
-                self.secret.encode("utf-8"), b"12345678", self.password, whichkeys=5
+                self.secret.encode("utf-8"), ADMIN_PIN, self.password, whichkeys=5
             )
             # Set touch policies
-            rjce.set_keyslot_touch_policy(b"12345678", rjce.KeySlot.Signature, rjce.TouchMode.Fixed)
-            rjce.set_keyslot_touch_policy(b"12345678", rjce.KeySlot.Encryption, rjce.TouchMode.Fixed)
-            rjce.set_keyslot_touch_policy(b"12345678", rjce.KeySlot.Authentication, rjce.TouchMode.On)
+            rjce.set_keyslot_touch_policy(ADMIN_PIN, rjce.KeySlot.Signature, rjce.TouchMode.Fixed)
+            rjce.set_keyslot_touch_policy(ADMIN_PIN, rjce.KeySlot.Encryption, rjce.TouchMode.Fixed)
+            rjce.set_keyslot_touch_policy(ADMIN_PIN, rjce.KeySlot.Authentication, rjce.TouchMode.On)
             self.uploaded.emit()
         except:
             self.errored.emit()
@@ -138,7 +140,7 @@ class Process(QObject):
     def save_userpin(self, pin):
         "Saves the new pin for Yubikey"
         try:
-            rjce.change_user_pin(b"12345678", pin.encode("utf-8"))
+            rjce.change_user_pin(ADMIN_PIN, pin.encode("utf-8"))
         except:
             self.errored.emit()
 
@@ -146,7 +148,7 @@ class Process(QObject):
     def save_adminpin(self, pin):
         "Saves the new pin for Yubikey"
         try:
-            rjce.change_admin_pin(b"12345678", pin.encode("utf-8"))
+            rjce.change_admin_pin(ADMIN_PIN, pin.encode("utf-8"))
         except:
             self.errored.emit()
 
