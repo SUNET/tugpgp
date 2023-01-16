@@ -151,6 +151,8 @@ class Process(QObject):
             rjce.change_admin_pin(ADMIN_PIN, pin.encode("utf-8"))
         except:
             self.errored.emit()
+        # Now disable OTP application
+        rjce.disable_otp_usb()
 
     @Slot(str, str, str)
     def generateKey(self, name, qemails, password):
