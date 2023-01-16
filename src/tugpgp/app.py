@@ -46,6 +46,10 @@ class YubiThread(QThread):
             rjce.upload_to_smartcard(
                 self.secret.encode("utf-8"), b"12345678", self.password, whichkeys=5
             )
+            # Set touch policies
+            rjce.set_keyslot_touch_policy(b"12345678", rjce.KeySlot.Signature, rjce.TouchMode.Fixed)
+            rjce.set_keyslot_touch_policy(b"12345678", rjce.KeySlot.Encryption, rjce.TouchMode.Fixed)
+            rjce.set_keyslot_touch_policy(b"12345678", rjce.KeySlot.Authentication, rjce.TouchMode.On)
             self.uploaded.emit()
         except:
             self.errored.emit()
