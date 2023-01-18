@@ -1,6 +1,13 @@
 # Changelog
 
-## [unreleased]
+## [0.0.5] - 2023-01-18
+
+### Fixed
+
+- Suppresses OTP disable error for Yubikey 4 #11.
+
+
+## [0.0.4] - 2023-01-16
 
 ### Fixed
 
