@@ -189,7 +189,7 @@ class Process(QObject):
                     fobj.write(self.kt.secret)
                 else:
                     fobj.write(self.kt.public)
-        except e as Exception:
+        except Exception as e:
             # TODO: Have to show to user
             print(e)
             return False
