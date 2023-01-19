@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.0] - 2023-01-19
+
+### Fixed
+
+- Fixed typo in the save_key function #12.
+
+
+
 ## [0.0.5] - 2023-01-18
 
 ### Fixed
