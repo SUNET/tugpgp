@@ -18,7 +18,7 @@ python3 -m pip install -U pip
 python3 -m pip install -r requirements.txt
 ```
 
-We need [johnnycanencrypt](https://github.com/kushaldas/johnnycanencrypt) version 0.11.0 or above.
+We need [johnnycanencrypt](https://github.com/kushaldas/johnnycanencrypt) version 0.13.1 or above.
 
 ### How to use the tool?
 
