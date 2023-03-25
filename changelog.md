@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.2] - 2023-03-2t
+
+- Upgraded jce dependency to 0.13.1.
+
+
+
 ## [0.1.1] - 2023-01-24
 
 - Upgraded jce dependency to 0.13.0.
