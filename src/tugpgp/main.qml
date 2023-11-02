@@ -13,6 +13,9 @@ ApplicationWindow {
     // This defines if we will allow saving private key
     property bool allowsecret: false
 
+    // To check if this is a backup smartcard or not
+    property bool backupkey: false
+
     SplitView {
         anchors.fill: parent
 
@@ -199,14 +202,25 @@ ApplicationWindow {
         id: uploadSuccessView
         UploadSucess {
             onNext: {
-                stack.push(publicSaveView)
+                if (backupkey) {
+                    // This is a backup smartcard, no need to save public key again
+                    stack.push(userPinsView)
+                } else {
+                    stack.push(publicSaveView)
+                }
             }
         }
     }
 
     Component {
         id: finalView
-        Final {}
+        Final {
+
+            onBackup: {
+                backupkey = true
+                stack.push(ykView)
+            }
+        }
     }
 
     Component {
