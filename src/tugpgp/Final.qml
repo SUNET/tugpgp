@@ -3,6 +3,7 @@ import QtQuick.Layouts
 
 Rectangle {
     id: root
+    signal backup
 
     RowLayout {
         //spacing: 10
@@ -22,6 +23,19 @@ Rectangle {
             font.pixelSize: 25
             anchors.verticalCenter: Layout.verticalCenter
         }
+    }
+
+    TButton {
+        id: backButton
+        anchors {
+            bottom: parent.bottom
+            bottomMargin: 20
+            left: parent.left
+            leftMargin: 20
+        }
+        text: qsTr("Create Backup key")
+
+        onClicked: root.backup()
     }
 
     TButton {

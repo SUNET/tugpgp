@@ -1,6 +1,12 @@
 # Changelog
 
-## [0.1.2] - 2023-03-2t
+## Unreleased
+
+### Added
+
+- Allow creating duplicate keys #17.
+
+## [0.1.2] - 2023-03-2
 
 - Upgraded jce dependency to 0.13.1.
 
