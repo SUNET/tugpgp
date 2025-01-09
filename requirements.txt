@@ -1,2 +1,3 @@
 johnnycanencrypt
 briefcase[all]
+pyside6
