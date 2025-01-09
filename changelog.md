@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## [0.1.3] - 2025-01-09
+
 ### Added
 
 - Allow creating duplicate keys #17.
