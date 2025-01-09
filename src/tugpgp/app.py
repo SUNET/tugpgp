@@ -3,7 +3,6 @@ OpenPGP key generation and Yubikey upload tool
 """
 import os
 import sys
-from importlib import metadata as importlib_metadata
 from pathlib import Path
 import datetime
 import argparse
@@ -226,7 +225,6 @@ def main():
 
     app_module = sys.modules["__main__"].__package__
     # Retrieve the app's metadata
-    metadata = importlib_metadata.metadata(app_module)
     app = QGuiApplication(sys.argv)
     engine = QQmlApplicationEngine()
     # We store the user progress in this p object.
@@ -242,7 +240,6 @@ def main():
         r = engine.rootObjects()[0]
         r.setProperty("allowsecret", True)
     sys.exit(app.exec())
-    # QtWidgets.QApplication.setApplicationName(metadata['Formal-Name'])
 
 
 if __name__ == "__main__":
