@@ -6,6 +6,7 @@
 
 - Allow creating duplicate keys #17.
 - Saves ssh public key too #15.
+- Upgraded jce dependency to 0.15.0.
 
 ## [0.1.2] - 2023-03-2
 

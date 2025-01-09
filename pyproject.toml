@@ -1,7 +1,7 @@
 [tool.briefcase]
 project_name = "Tugpgp"
 bundle = "in.kushaldas.tugpgp"
-version = "0.1.2"
+version = "0.1.3"
 url = "https://github.com/SUNET/tugpgp"
 license = "GNU General Public License v3 or later (GPLv3+)"
 author = 'Kushal Das'
@@ -13,8 +13,8 @@ description = "OpenPGP key generation and Yubikey upload tool"
 icon = "images/in.kushaldas.tugpgp"
 sources = ['src/tugpgp']
 requires = [
-    'pyside6>=6.2.4',
-    'johnnycanencrypt>=0.13.1',
+    'pyside6>=6.8.1',
+    'johnnycanencrypt>=0.15.0',
 ]
 
 
