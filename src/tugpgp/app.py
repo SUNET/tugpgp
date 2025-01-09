@@ -66,6 +66,7 @@ class KeyThread(QThread):
         self.uids = []
         self.password = ""
         self.public = None
+        self.ssh_public = None
         self.secret = None
         self.fingerprint = None
 
@@ -88,6 +89,7 @@ class KeyThread(QThread):
         )
         self.public = public
         self.secret = secret
+        self.ssh_public = rjce.get_ssh_pubkey(public.encode("utf-8"), f"Public key for {fingerprint}")
         self.fingerprint = fingerprint
         # Now we can go to next screen
         self.updated.emit()
@@ -179,6 +181,7 @@ class Process(QObject):
 
     @Slot(str, bool, result=bool)
     def saveKey(self, dirpath: str, secret: bool):
+        ssh_filename = os.path.join(dirpath, f"ssh-{self.public_key}")
         if secret:
             filename = os.path.join(dirpath, self.secret_key)
         else:
@@ -189,6 +192,9 @@ class Process(QObject):
                     fobj.write(self.kt.secret)
                 else:
                     fobj.write(self.kt.public)
+                    if self.kt.ssh_public:
+                        with open(ssh_filename, "w") as fssh:
+                            fssh.write(self.kt.ssh_public)
         except Exception as e:
             # TODO: Have to show to user
             print(e)
