@@ -58,6 +58,9 @@ Rectangle {
             font.pixelSize: 20
             color: "black"
 
+            KeyNavigation.priority: KeyNavigation.BeforeItem
+            KeyNavigation.tab: nextItemInFocusChain()
+
             background: Rectangle {
                 color: "white"
                 radius: 5
