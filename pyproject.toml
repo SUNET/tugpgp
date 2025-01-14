@@ -1,9 +1,30 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "tugpgp"
+authors = [{name = "Kushal Das", email = "mail@kushaldas.in"}]
+readme = "README.md"
+license = {file = "LICENSE"}
+dynamic = ["version", "description"]
+dependencies = [
+    "pyside6 >=6.8.1",
+    "johnnycanencrypt == 0.15.0",
+]
+
+[project.urls]
+Home = "https://github.com/SUNET/tugpgp"
+
+[project.scripts]
+tugpgp = "tugpgp.app:main"
+
 [tool.briefcase]
 project_name = "Tugpgp"
 bundle = "in.kushaldas.tugpgp"
-version = "0.1.3"
+version = "0.1.3a2"
 url = "https://github.com/SUNET/tugpgp"
-license = "GNU General Public License v3 or later (GPLv3+)"
+license.file = "LICENSE"
 author = 'Kushal Das'
 author_email = "kushal@sunet.se"
 
@@ -22,6 +43,10 @@ requires = [
 requires = [
     'std-nslog~=1.0.0'
 ]
+
+
+[tool.briefcase.app.tugpgp.macOS.app]
+universal_build = false
 
 [tool.briefcase.app.tugpgp.linux]
 requires = []
