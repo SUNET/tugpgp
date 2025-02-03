@@ -1,18 +1,17 @@
 """
 OpenPGP key generation and Yubikey upload tool
 """
+import argparse
+import datetime
 import os
 import sys
 from pathlib import Path
-import datetime
-import argparse
 
+import johnnycanencrypt.johnnycanencrypt as rjce
+from johnnycanencrypt import Cipher
+from PySide6.QtCore import Property, QObject, QThread, Signal, Slot
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlApplicationEngine
-from PySide6.QtCore import QThread, Signal, Slot, QObject, Property
-
-from johnnycanencrypt import Cipher
-import johnnycanencrypt.johnnycanencrypt as rjce
 
 # The default admin pin of Yubikey
 ADMIN_PIN = b"12345678"
@@ -160,7 +159,13 @@ class Process(QObject):
 
     @Slot(str, str, str)
     def generateKey(self, name, qemails, password):
-        emails = [email.strip() for email in qemails.split("\n")]
+        emails = [] 
+        for email in qemails.split("\n"):
+            email = email.strip()
+            if email:
+                # We want some text in that email field
+                # TODO: vaildate email (maybe bad idea)
+                emails.append(email)
         self.uids = [f"{name} <{email}>" for email in emails]
         self.name = name
         self.kt.uids = self.uids
