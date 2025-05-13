@@ -1,0 +1,44 @@
+publiccodeYmlVersion: "0.4"
+
+name: tugpgp
+url: "https://github.com/SUNET/tugpgp"
+platforms:
+  - desktop
+
+categories:
+  - it-security
+
+usedBy:
+  - Sunet
+
+developmentStatus: stable
+
+softwareType: "standalone/desktop"
+
+description:
+  en:
+    shortDescription: >
+          An utility to create and upload OpenPGP keys to Yubikey.
+
+    longDescription: >
+        An utility to create and upload OpenPGP keys to Yubikey. The tool
+        will not write the generated key on disk unless specifically asked.
+    features:
+      - OpenPGP key generation
+      - Upload to Yubikey 
+    screenshots:
+      -  https://github.com/SUNET/tugpgp/raw/main/images/tugpgp_final_screen.png
+
+legal:
+  license: GPL-3.0-or-later
+
+maintenance:
+  type: "community"
+
+  contacts:
+    - name: Kushal Das <kushal@sunet.se>
+
+localisation:
+  localisationReady: false
+  availableLanguages:
+    - en
