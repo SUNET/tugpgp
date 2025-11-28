@@ -31,6 +31,7 @@ author_email = "kushal@sunet.se"
 [tool.briefcase.app.tugpgp]
 formal_name = "Tugpgp"
 description = "OpenPGP key generation and Yubikey upload tool"
+long_description = "OpenPGP key generation and Yubikey upload tool"
 icon = "images/in.kushaldas.tugpgp"
 sources = ['src/tugpgp']
 requires = [
