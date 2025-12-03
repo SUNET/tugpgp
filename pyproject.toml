@@ -22,7 +22,7 @@ tugpgp = "tugpgp.app:main"
 [tool.briefcase]
 project_name = "Tugpgp"
 bundle = "in.kushaldas.tugpgp"
-version = "0.1.3a2"
+version = "0.2.0a1"
 url = "https://github.com/SUNET/tugpgp"
 license.file = "LICENSE"
 author = 'Kushal Das'

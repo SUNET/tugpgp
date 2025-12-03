@@ -3,7 +3,7 @@ import QtQuick.Window
 import QtQuick.Controls
 
 ApplicationWindow {
-    title: qsTr("Tugpgp v0.1.3a2")
+    title: qsTr("Tugpgp v0.2.0a1")
     width: 983
     height: 702
     visible: true
