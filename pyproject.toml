@@ -9,8 +9,8 @@ readme = "README.md"
 license = {file = "LICENSE"}
 dynamic = ["version", "description"]
 dependencies = [
-    "pyside6 >=6.8.1",
-    "johnnycanencrypt == 0.15.0",
+    "PySide6",
+    "johnnycanencrypt",
 ]
 
 [project.urls]
@@ -22,7 +22,7 @@ tugpgp = "tugpgp.app:main"
 [tool.briefcase]
 project_name = "Tugpgp"
 bundle = "in.kushaldas.tugpgp"
-version = "0.1.3a2"
+version = "0.2.0a1"
 url = "https://github.com/SUNET/tugpgp"
 license.file = "LICENSE"
 author = 'Kushal Das'
@@ -35,12 +35,14 @@ long_description = "OpenPGP key generation and Yubikey upload tool"
 icon = "images/in.kushaldas.tugpgp"
 sources = ['src/tugpgp']
 requires = [
-    'pyside6>=6.8.1',
-    'johnnycanencrypt>=0.17.0',
+    'PySide6',
+    'johnnycanencrypt',
 ]
 
 
 [tool.briefcase.app.tugpgp.macOS]
+universal_build = false
+min_os_version = "15.0"
 requires = [
     'std-nslog~=1.0.0'
 ]

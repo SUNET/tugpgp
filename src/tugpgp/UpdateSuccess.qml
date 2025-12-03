@@ -26,15 +26,27 @@ Rectangle {
         }
     }
 
-    Text {
-        id: message
+    Rectangle {
+        id: messageBackground
         anchors.top: bigRow.bottom
         anchors.topMargin: 20
-        width: parent.width - 80
-        horizontalAlignment: Text.AlignHCenter
-        wrapMode: Text.WordWrap
-        font.pixelSize: 14
-        color: "#252021"
-        text: qsTr("%1").arg(process.UpdatedFilePath)
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: Math.min(message.implicitWidth + 24, parent.width - 80)
+        height: message.implicitHeight + 20
+        color: "#fafafa"
+        radius: 4
+        border.color: "#ddd"
+
+        TextInput {
+            id: message
+            anchors.centerIn: parent
+            width: parent.width - 24
+            font.pixelSize: 13
+            font.family: "monospace"
+            color: "#252021"
+            text: process.UpdatedFilePath
+            readOnly: true
+            selectByMouse: true
+        }
     }
 }
