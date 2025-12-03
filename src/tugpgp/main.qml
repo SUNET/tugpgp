@@ -268,13 +268,25 @@ ApplicationWindow {
         id: expiryPinView
         ExpiryPin {
             onNext: {
-                if (process.update_expiry(yubikeyPin)) {
-                    stack.push(updateSuccessView)
+                if (!process.is_connected()) {
+                    showError("Yubikey not detected. Please insert the Yubikey and try again.")
                 } else {
-                    showError("Failed to update expiry date on the Yubikey. Please try again.")
+                    var msg = process.update_expiry(yubikeyPin);
+                    if (msg == "Success") {
+                        stack.push(updateSuccessView)
+                    } else if (msg == "Pinfailed") {
+                        showError("User PIN verification failed.")
+                    } else if (msg == "No time differenence") {
+                        showError("The date should be in future.")
+                    } else if (msg == "WrongYubikey") {
+                        showError("The connected Yubikey does not match the key being updated.")
+                    } else {
+                        showError("Failed to update expiry date on the Yubikey. Please try again.")
+                    }
                 }
             }
         }
+        
     }
 
     Component {

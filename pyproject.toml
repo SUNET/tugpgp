@@ -77,3 +77,7 @@ system_runtime_requires = [
 ]
 
 style_framework = "Shoelace v2.3"
+
+[tool.scriv]
+version = "literal: pyproject.toml: project.version"
+format = "md"

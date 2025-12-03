@@ -26,12 +26,19 @@ Rectangle {
         }
     }
 
+    function showError(message) {
+        badTxt.text = message
+        badTxt.visible = true
+    }
+
+
 
     ListModel {
         id: subkeyModel
     }
 
     ScrollView {
+        id: subkeyScroll
         anchors.fill: parent
         anchors.margins: 20
         anchors.bottomMargin: 100
@@ -170,6 +177,7 @@ Rectangle {
     }
     
     Text {
+        id: detailsTxt
         text: qsTr("After clicking update, touch the Yubikey when flashing. It will be required for the primary key and every subkey.")
         wrapMode: Text.WordWrap
         width: 600
@@ -179,6 +187,18 @@ Rectangle {
         anchors.leftMargin: 40
         anchors.bottom: userPinLabel.top
         anchors.bottomMargin: 16
+    }
+
+
+    Text {
+        id: badTxt
+        anchors.bottom: detailsTxt.top
+        anchors.bottomMargin: 30
+        anchors.horizontalCenter: parent.horizontalCenter
+        text: qsTr("")
+        font.pixelSize: 20
+        color: "red"
+        visible: false
     }
 
     Text {
@@ -203,17 +223,6 @@ Rectangle {
         anchors.bottomMargin: 20
     }
     
-
-    Text {
-        id: badTxt
-        anchors.top: parent.top
-        anchors.topMargin: 50
-        anchors.horizontalCenter: parent.horizontalCenter
-        text: qsTr("")
-        font.pixelSize: 20
-        color: "red"
-        visible: false
-    }
 
     TButton {
         id: ueButton
