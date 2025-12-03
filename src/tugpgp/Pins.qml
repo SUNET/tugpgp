@@ -31,20 +31,11 @@ Rectangle {
             font.pixelSize: 25
         }
 
-        TextField {
+        PinEntry {
             id: passTxt
             width: 550
             height: 40
             bottomPadding: 10
-            echoMode: TextInput.Password
-
-            font.pixelSize: 20
-            color: "black"
-            background: Rectangle {
-                color: "white"
-                radius: 5
-                border.color: "#ca402b"
-            }
         }
         Text {
             id: repeatTxt
@@ -53,21 +44,11 @@ Rectangle {
             topPadding: 10
             font.pixelSize: 25
         }
-        TextField {
+        PinEntry {
             id: pass2Txt
             width: 550
             height: 40
             bottomPadding: 10
-            echoMode: TextInput.Password
-
-            font.pixelSize: 20
-            color: "black"
-
-            background: Rectangle {
-                color: "white"
-                radius: 5
-                border.color: "#ca402b"
-            }
         }
         Text {
             id: wrongTxt

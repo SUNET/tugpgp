@@ -35,6 +35,21 @@ ApplicationWindow {
                     topMargin: 20
                 }
             }
+
+            TButton {
+                id: expiryButton
+                text: qsTr("Expiry ...")
+                normalColor: "#e97f2e"
+                hoverColor: "#d87229"
+                clickColor: "#c76524"
+                anchors {
+                    bottom: parent.bottom
+                    bottomMargin: 20
+                    left: parent.left
+                    leftMargin: 20
+                }
+                onClicked: stack.push(updateExpiryView)
+            }
         }
 
         Rectangle {
@@ -107,7 +122,10 @@ ApplicationWindow {
     Component {
         id: startView
         Start {
-            onClicked: stack.push(userView)
+            onClicked: {
+                expiryButton.visible = false
+                stack.push(userView)
+            }
         }
     }
 
@@ -226,5 +244,41 @@ ApplicationWindow {
     Component {
         id: errorsView
         Errors {}
+    }
+
+    Component {
+        id: updateExpiryView
+        UpdateExpiry {
+            onNext: { 
+                // Validate the date format first
+                if (!process.check_date(expiryDate)) {
+                    showError("Invalid date format. Please use YYYY-MM-DD and a date in future.")
+                    return
+                }
+                // If everything is fine, proceed to parse the public key
+                var data = process.parse_public_key(selectedFile, expiryDate)
+                var expiryPin = expiryPinView.createObject(stack)
+                expiryPin.setKeyData(data)
+                stack.push(expiryPin)
+            }
+        }
+    }
+
+    Component {
+        id: expiryPinView
+        ExpiryPin {
+            onNext: {
+                if (process.update_expiry(yubikeyPin)) {
+                    stack.push(updateSuccessView)
+                } else {
+                    showError("Failed to update expiry date on the Yubikey. Please try again.")
+                }
+            }
+        }
+    }
+
+    Component {
+        id: updateSuccessView
+        UpdateSuccess {}
     }
 }

@@ -72,21 +72,11 @@ Rectangle {
             bottomPadding: 10
             font.pixelSize: 25
         }
-        TextField {
+        PinEntry {
             id: passwordTxt
-            echoMode: TextInput.Password
             width: 550
             height: 40
             bottomPadding: 10
-
-            font.pixelSize: 20
-            color: "black"
-
-            background: Rectangle {
-                color: "white"
-                radius: 5
-                border.color: "#ca402b"
-            }
         }
     }
 

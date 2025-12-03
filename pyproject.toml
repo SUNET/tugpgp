@@ -36,7 +36,7 @@ icon = "images/in.kushaldas.tugpgp"
 sources = ['src/tugpgp']
 requires = [
     'pyside6>=6.8.1',
-    'johnnycanencrypt>=0.15.0',
+    'johnnycanencrypt>=0.17.0',
 ]
 
 
