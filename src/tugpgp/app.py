@@ -98,6 +98,7 @@ class Process(QObject):
     updated = Signal()
     uploaded = Signal()
     errored = Signal()
+    updatedFilePathChanged = Signal()
 
     def __init__(self):
         super(Process, self).__init__(None)
@@ -108,6 +109,15 @@ class Process(QObject):
         self.yt = YubiThread()
         self.yt.uploaded.connect(self.keyuploaded)
         self.yt.errored.connect(self.handle_error)
+        self.pkey = ""
+        self.pkey_expiry = ""
+        self.subkeys = []
+        self.sub_fingerprints = []
+        self.newexpdate = ""
+        self.public_key_data = b""
+        self.public_key_directory = ""
+        self.updated_filepath = ""
+        self.timediff: datetime.timedelta | None = None
 
     def read_public_key(self):
         "To read the value of public_key in QML"
@@ -116,6 +126,70 @@ class Process(QObject):
     def read_secret_key(self):
         "To read the value of secret_key in QML"
         return self.secret_key
+    
+    def read_primary_fingerprint(self):
+        "To read the value of primary fingerprint in QML"
+        return self.pkey
+
+    def read_updated_filepath(self):
+        "Expose updated file path to QML"
+        return self.updated_filepath
+
+    @Slot(str, result=bool)
+    def update_expiry(self, yubikey_pin):
+        "Updates the expiry date of the public key data stored"
+        try:
+            if self.timediff:
+                if not rjce.verify_userpin_oncard(yubikey_pin.encode("utf-8")):
+                    return False
+                new_expiry_in_future = int(self.timediff.total_seconds() + 86400) # Added 1 day for buffer
+                updated_data_with_primary_key = rjce.update_primary_expiry_on_card(self.public_key_data, new_expiry_in_future, yubikey_pin.encode("utf-8"))
+                updated_data = rjce.update_subkeys_expiry_on_card(updated_data_with_primary_key, self.sub_fingerprints, new_expiry_in_future, yubikey_pin.encode("utf-8"))
+                self.updated_filepath = os.path.join(self.public_key_directory, f"updated_{self.pkey}.pub")
+                with open(self.updated_filepath, "wb") as f:
+                    f.write(updated_data)
+                self.updatedFilePathChanged.emit()
+                return True
+            return False
+        except Exception as e:
+            print(e)
+            return False
+
+    @Slot(str, result=bool)
+    def check_date(self, date_str):
+        "Checks if the given date string is valid and in future."
+        try:
+            now = datetime.datetime.now()
+            date_str = date_str.strip()
+            date_obj = datetime.datetime.strptime(date_str, "%Y-%m-%d")
+            if date_obj <= now:
+                return False
+            self.timediff = (date_obj - now)
+            return True
+        except ValueError:
+            return False
+
+    @Slot(str, str, result='QVariant')
+    def parse_public_key(self, pkey_path, date):
+        "Parses the given public key and stores details."
+        with open(pkey_path, "rb") as f:
+            olddata = f.read()
+        self.public_key_data = olddata
+        self.public_key_directory = os.path.dirname(pkey_path)
+        uids, fingerprint, keytype, expirationtime, creationtime, othervalues = (
+            rjce.parse_cert_bytes(olddata)
+        )
+        self.pkey = fingerprint
+        self.pkey_expiry = expirationtime.strftime("%Y-%m-%d") if expirationtime else "No expiration"
+        subkeys = othervalues.get("subkeys", [])
+        for subkey in subkeys:
+            # We store type, creation time and expiration time
+            if subkey[3]:
+                exp = subkey[3].strftime("%Y-%m-%d")
+            self.subkeys.append([subkey[4], subkey[1], exp if subkey[3] else "No expiration"])
+            self.sub_fingerprints.append(subkey[1])
+        return {"fingerprint": self.pkey, "expiration": self.pkey_expiry, "subkeys": self.subkeys}
+
 
     @Slot()
     def keygenerated(self):
@@ -209,6 +283,7 @@ class Process(QObject):
     # This is the property exposed to QML
     PublicKey = Property(str, read_public_key, None)
     SecretKey = Property(str, read_secret_key, None)
+    UpdatedFilePath = Property(str, read_updated_filepath, notify=updatedFilePathChanged)
 
 
 def main():
