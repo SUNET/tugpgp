@@ -1,3 +1,4 @@
 johnnycanencrypt
 briefcase[all]
 pyside6
+scriv

@@ -7,6 +7,7 @@ import os
 import sys
 from pathlib import Path
 
+import johnnycanencrypt.utils as utils
 import johnnycanencrypt.johnnycanencrypt as rjce
 from johnnycanencrypt import Cipher
 from PySide6.QtCore import Property, QObject, QThread, Signal, Slot
@@ -109,7 +110,7 @@ class Process(QObject):
         self.yt = YubiThread()
         self.yt.uploaded.connect(self.keyuploaded)
         self.yt.errored.connect(self.handle_error)
-        self.pkey = ""
+        self.pkey = "" # Primary key fingerprint
         self.pkey_expiry = ""
         self.subkeys = []
         self.sub_fingerprints = []
@@ -135,13 +136,19 @@ class Process(QObject):
         "Expose updated file path to QML"
         return self.updated_filepath
 
-    @Slot(str, result=bool)
+    @Slot(str, result=str)
     def update_expiry(self, yubikey_pin):
         "Updates the expiry date of the public key data stored"
         try:
             if self.timediff:
+                # Let us check if we have the right Yubikey connected
+                data = rjce.get_card_details()
+                if self.pkey != utils.convert_fingerprint(data.get("sig_f", "")):
+                    print("Yubikey with different key connected.")
+                    return "WrongYubikey"
                 if not rjce.verify_userpin_oncard(yubikey_pin.encode("utf-8")):
-                    return False
+                    print("User pin verification failed.")
+                    return "Pinfailed"
                 new_expiry_in_future = int(self.timediff.total_seconds() + 86400) # Added 1 day for buffer
                 updated_data_with_primary_key = rjce.update_primary_expiry_on_card(self.public_key_data, new_expiry_in_future, yubikey_pin.encode("utf-8"))
                 updated_data = rjce.update_subkeys_expiry_on_card(updated_data_with_primary_key, self.sub_fingerprints, new_expiry_in_future, yubikey_pin.encode("utf-8"))
@@ -149,11 +156,11 @@ class Process(QObject):
                 with open(self.updated_filepath, "wb") as f:
                     f.write(updated_data)
                 self.updatedFilePathChanged.emit()
-                return True
-            return False
+                return "Success"
+            return "No time differenence."
         except Exception as e:
             print(e)
-            return False
+            return "Failed due to python exception"
 
     @Slot(str, result=bool)
     def check_date(self, date_str):
