@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 
-import sys
-import johnnycanencrypt.johnnycanencrypt as rjce
-import johnnycanencrypt as jce
-from pprint import pprint
-import getpass
 import datetime
+import getpass
 import importlib.metadata
+import sys
+from pprint import pprint
+
+import johnnycanencrypt as jce
+import johnnycanencrypt.johnnycanencrypt as rjce
 from packaging import version
 
 jce_version = importlib.metadata.version("johnnycanencrypt")
@@ -61,7 +62,7 @@ PIN = userpin.encode("utf-8")
 
 print("Verifying the user pin.")
 
-if not rjce.verify_userpin(PIN):
+if not rjce.verify_userpin_oncard(PIN):
     print(
         "User PIN failed, try again, remember to double check before you lock your card."
     )
