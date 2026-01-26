@@ -1,0 +1,64 @@
+# RPM build environment for Tauri app
+# Usage: docker build --build-arg BASE_IMAGE=fedora:43 -f Dockerfile.rpm -t tugpgp-rpm .
+ARG BASE_IMAGE=fedora:43
+FROM ${BASE_IMAGE}
+
+# Package version (can be overridden for proper RPM versioning)
+# e.g., 0.3.0~alpha.1 for prereleases (~ sorts before release)
+ARG PKG_VERSION=""
+
+# Install build dependencies for Fedora/RHEL-based distros
+RUN dnf install -y \
+    # Rust toolchain
+    rust cargo \
+    # Node.js and npm
+    nodejs npm \
+    # Tauri dependencies
+    webkit2gtk4.1-devel \
+    openssl-devel \
+    curl \
+    wget \
+    file \
+    libappindicator-gtk3-devel \
+    librsvg2-devel \
+    gtk3-devel \
+    pango-devel \
+    gdk-pixbuf2-devel \
+    # RPM build tools
+    rpm-build \
+    # Build essentials
+    gcc gcc-c++ \
+    make \
+    pkgconf-pkg-config \
+    # JSON manipulation
+    jq \
+    && dnf clean all
+
+# Install pnpm
+RUN npm install -g pnpm
+
+# Set CI environment for non-interactive builds
+ENV CI=true
+
+# Set up working directory
+WORKDIR /app
+
+# Copy source code
+COPY . .
+
+# Update version in tauri.conf.json if PKG_VERSION is provided
+ARG PKG_VERSION
+RUN if [ -n "$PKG_VERSION" ]; then \
+        echo "Setting package version to: $PKG_VERSION"; \
+        jq --arg v "$PKG_VERSION" '.version = $v' src-tauri/tauri.conf.json > tmp.json && \
+        mv tmp.json src-tauri/tauri.conf.json; \
+    fi
+
+# Install frontend dependencies
+RUN pnpm install
+
+# Build the Tauri app with RPM bundle
+RUN pnpm tauri build --bundles rpm
+
+# The RPM will be in target/release/bundle/rpm/
+CMD ["ls", "-la", "src-tauri/target/release/bundle/rpm/"]

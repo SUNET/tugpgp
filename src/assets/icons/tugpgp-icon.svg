@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Circle -->
+  <circle cx="32" cy="32" r="28"/>
+
+  <!-- Key head (circular part) -->
+  <circle cx="24" cy="24" r="8"/>
+  <circle cx="24" cy="24" r="4"/>
+
+  <!-- Key shaft -->
+  <line x1="30" y1="30" x2="48" y2="48"/>
+
+  <!-- Key teeth -->
+  <line x1="40" y1="40" x2="44" y2="36"/>
+  <line x1="44" y1="44" x2="48" y2="40"/>
+</svg>

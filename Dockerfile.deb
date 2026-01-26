@@ -1,0 +1,72 @@
+# DEB build environment for Tauri app
+# Usage: docker build --build-arg BASE_IMAGE=debian:12 -f Dockerfile.deb -t tugpgp-deb .
+ARG BASE_IMAGE=debian:12
+FROM ${BASE_IMAGE}
+
+# Package version (can be overridden for proper Debian versioning)
+# e.g., 0.3.0~alpha.1 for prereleases (~ sorts before release)
+ARG PKG_VERSION=""
+
+# Avoid interactive prompts
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install build dependencies for Debian/Ubuntu-based distros
+RUN apt-get update && apt-get install -y \
+    # Node.js and npm
+    nodejs \
+    npm \
+    # Tauri dependencies
+    libwebkit2gtk-4.1-dev \
+    libssl-dev \
+    curl \
+    wget \
+    file \
+    libayatana-appindicator3-dev \
+    librsvg2-dev \
+    libgtk-3-dev \
+    libpango1.0-dev \
+    libgdk-pixbuf-2.0-dev \
+    # Build essentials
+    build-essential \
+    pkg-config \
+    # Additional tools
+    ca-certificates \
+    # JSON manipulation
+    jq \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Rust via rustup (to get a recent version)
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+# Install pnpm
+RUN npm install -g pnpm
+
+# Set CI environment for non-interactive builds
+ENV CI=true
+
+# Set up working directory
+WORKDIR /app
+
+# Copy source code
+COPY . .
+
+# Remove Cargo.lock to regenerate with correct version
+RUN rm -f src-tauri/Cargo.lock
+
+# Update version in tauri.conf.json if PKG_VERSION is provided
+ARG PKG_VERSION
+RUN if [ -n "$PKG_VERSION" ]; then \
+        echo "Setting package version to: $PKG_VERSION"; \
+        jq --arg v "$PKG_VERSION" '.version = $v' src-tauri/tauri.conf.json > tmp.json && \
+        mv tmp.json src-tauri/tauri.conf.json; \
+    fi
+
+# Install frontend dependencies
+RUN pnpm install
+
+# Build the Tauri app with DEB bundle
+RUN pnpm tauri build --bundles deb
+
+# The DEB will be in target/release/bundle/deb/
+CMD ["ls", "-la", "src-tauri/target/release/bundle/deb/"]
