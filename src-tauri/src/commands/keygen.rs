@@ -1,3 +1,4 @@
+use chrono::Utc;
 use serde::{Deserialize, Serialize};
 use tauri::State;
 use wecanencrypt::{
@@ -76,13 +77,16 @@ pub async fn generate_key(
         authentication: true,
     };
 
+    // Default expiry: 2 years from now
+    let expiry = Utc::now() + chrono::Duration::days(730);
+
     let generated = create_key(
         &password,
         &user_id_refs,
         CipherSuite::Cv25519,
-        None,  // creation_time (use default)
-        None,  // expiration_time (no expiry for now)
-        None,  // subkeys_expiration
+        None,          // creation_time (use default)
+        Some(expiry),  // expiration_time (2 years)
+        Some(expiry),  // subkeys_expiration (2 years)
         subkey_flags,
         true,  // can_primary_sign
         true,  // can_primary_expire
