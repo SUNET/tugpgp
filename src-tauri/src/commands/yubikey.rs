@@ -187,8 +187,7 @@ pub async fn update_key_expiry(
     // Save to same directory with updated filename
     let path = Path::new(&key_path);
     let parent = path.parent().unwrap_or(Path::new("."));
-    let fingerprint_short = &cert_info.fingerprint[cert_info.fingerprint.len().saturating_sub(16)..];
-    let updated_filename = format!("updated_{}.pub", fingerprint_short);
+    let updated_filename = format!("updated_{}.pub", cert_info.fingerprint);
     let updated_path = parent.join(&updated_filename);
 
     fs::write(&updated_path, updated_pub_key)

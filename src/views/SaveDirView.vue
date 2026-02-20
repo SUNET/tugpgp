@@ -23,7 +23,7 @@ const saveSSH = ref(true)
 
 const isPublic = computed(() => props.keyType === 'public')
 const title = computed(() => isPublic.value ? 'Save Public Key' : 'Save Secret Key')
-const fingerprint = computed(() => store.keyData.fingerprint.replace(/\s/g, '').slice(-8))
+const fingerprint = computed(() => store.keyData.fingerprint.replace(/\s/g, ''))
 const filename = computed(() => isPublic.value ? `${fingerprint.value}.pub` : `${fingerprint.value}.sec`)
 const sshFilename = computed(() => `${fingerprint.value}_ssh.pub`)
 const hasSSHKey = computed(() => isPublic.value && store.keyData.sshPublicKey && !store.keyData.sshPublicKey.includes('not available'))
