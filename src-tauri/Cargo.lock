@@ -5670,7 +5670,7 @@ checksum = "e421abadd41a4225275504ea4d6566923418b7f05506fbc9c0fe86ba7396114b"
 
 [[package]]
 name = "tugpgp"
-version = "0.3.0-alpha.1"
+version = "0.3.0-beta.1"
 dependencies = [
  "chrono",
  "serde",
@@ -6140,9 +6140,9 @@ dependencies = [
 
 [[package]]
 name = "wecanencrypt"
-version = "0.2.0"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2cd202359c915573999d58b8ab5311dc995c1facaabc3bf477d1735b5325775c"
+checksum = "76f9df28553b1c162007ed25e503bbc30692915a68d70486b4784c95f78ccd3a"
 dependencies = [
  "aead",
  "aes",

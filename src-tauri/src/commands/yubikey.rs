@@ -9,6 +9,7 @@ use wecanencrypt::{
         change_user_pin, change_admin_pin,
         update_primary_expiry_on_card, update_subkeys_expiry_on_card,
         upload_subkey_by_fingerprint, CardKeySlot,
+        set_touch_mode, KeySlot, TouchMode,
     },
 };
 
@@ -81,6 +82,21 @@ pub async fn upload_to_yubikey(state: State<'_, AppState>) -> Result<(), String>
         CardKeySlot::Authentication,
         DEFAULT_ADMIN_PIN,
     ).map_err(|e| format!("Failed to upload authentication subkey: {}", e))?;
+
+    // Set touch modes for each key slot
+    // Signing and Decryption: Fixed (permanent, requires touch for every operation)
+    // Authentication: On (requires touch, but can be changed later)
+    println!("Setting touch mode for Signing slot to Fixed...");
+    set_touch_mode(KeySlot::Signature, TouchMode::Fixed, DEFAULT_ADMIN_PIN)
+        .map_err(|e| format!("Failed to set touch mode for signing: {}", e))?;
+
+    println!("Setting touch mode for Decryption slot to Fixed...");
+    set_touch_mode(KeySlot::Encryption, TouchMode::Fixed, DEFAULT_ADMIN_PIN)
+        .map_err(|e| format!("Failed to set touch mode for decryption: {}", e))?;
+
+    println!("Setting touch mode for Authentication slot to On...");
+    set_touch_mode(KeySlot::Authentication, TouchMode::On, DEFAULT_ADMIN_PIN)
+        .map_err(|e| format!("Failed to set touch mode for authentication: {}", e))?;
 
     println!("Upload complete!");
     Ok(())
