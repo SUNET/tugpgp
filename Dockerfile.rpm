@@ -24,6 +24,8 @@ RUN dnf install -y \
     gtk3-devel \
     pango-devel \
     gdk-pixbuf2-devel \
+    # Smart card support
+    pcsc-lite-devel \
     # RPM build tools
     rpm-build \
     # Build essentials
