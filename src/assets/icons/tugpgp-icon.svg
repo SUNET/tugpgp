@@ -1,15 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <!-- Circle -->
-  <circle cx="32" cy="32" r="28"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#1D4ED8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="32" cy="32" r="30" fill="url(#bg)"/>
 
   <!-- Key head (circular part) -->
-  <circle cx="24" cy="24" r="8"/>
-  <circle cx="24" cy="24" r="4"/>
+  <circle cx="24" cy="22" r="9" fill="none" stroke="#FFFFFF" stroke-width="3"/>
+  <circle cx="24" cy="22" r="4" fill="none" stroke="#FFFFFF" stroke-width="2.5"/>
 
   <!-- Key shaft -->
-  <line x1="30" y1="30" x2="48" y2="48"/>
+  <line x1="31" y1="29" x2="49" y2="47" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
 
   <!-- Key teeth -->
-  <line x1="40" y1="40" x2="44" y2="36"/>
-  <line x1="44" y1="44" x2="48" y2="40"/>
+  <line x1="39" y1="39" x2="43" y2="35" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="43" y1="43" x2="47" y2="39" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
 </svg>
