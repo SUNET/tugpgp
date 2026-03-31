@@ -4,6 +4,6 @@ import SidebarLayout from './components/SidebarLayout.vue'
 
 <template>
   <SidebarLayout>
-    <router-view />
+    <router-view :key="$route.path" />
   </SidebarLayout>
 </template>
