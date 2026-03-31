@@ -6,11 +6,17 @@ use wecanencrypt::{parse_cert_file, KeyType};
 use super::keygen::SubkeyInfo;
 
 #[derive(Debug, Serialize, Deserialize)]
+pub struct UserIdData {
+    pub value: String,
+    pub revoked: bool,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
 pub struct ParsedKeyData {
     pub fingerprint: String,
     pub expiry: String,
-    #[serde(rename = "userId")]
-    pub user_id: String,
+    #[serde(rename = "userIds")]
+    pub user_ids: Vec<UserIdData>,
     pub subkeys: Vec<SubkeyInfo>,
 }
 
@@ -49,11 +55,14 @@ pub fn parse_public_key(file_path: String) -> Result<ParsedKeyData, String> {
     let cert_info = parse_cert_file(&file_path, true)
         .map_err(|e| format!("Failed to parse key file: {}", e))?;
 
-    // Get the first user ID or a default
-    let user_id = cert_info.user_ids
-        .first()
-        .cloned()
-        .unwrap_or_else(|| "Unknown".to_string());
+    // Build user ID list with revocation status
+    let user_ids: Vec<UserIdData> = cert_info.user_ids
+        .iter()
+        .map(|uid| UserIdData {
+            value: uid.value.clone(),
+            revoked: uid.revoked,
+        })
+        .collect();
 
     // Format expiry date
     let expiry = cert_info.expiration_time
@@ -77,7 +86,7 @@ pub fn parse_public_key(file_path: String) -> Result<ParsedKeyData, String> {
     Ok(ParsedKeyData {
         fingerprint: format_fingerprint(&cert_info.fingerprint),
         expiry,
-        user_id,
+        user_ids,
         subkeys,
     })
 }

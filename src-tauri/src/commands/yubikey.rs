@@ -5,7 +5,7 @@ use chrono::{NaiveDate, TimeZone, Utc};
 use wecanencrypt::{
     parse_cert_bytes, get_pub_key, KeyType,
     card::{
-        is_card_connected, upload_primary_key_to_card, upload_key_to_card,
+        is_card_connected, reset_card, upload_primary_key_to_card, upload_key_to_card,
         change_user_pin, change_admin_pin,
         update_primary_expiry_on_card, update_subkeys_expiry_on_card,
         upload_subkey_by_fingerprint, CardKeySlot,
@@ -40,6 +40,11 @@ pub async fn upload_to_yubikey(state: State<'_, AppState>) -> Result<(), String>
         let pw = state.key_password.lock().unwrap();
         pw.clone().ok_or("No password in state.")?
     };
+
+    // Reset the Yubikey to factory defaults before uploading
+    println!("Resetting Yubikey to factory defaults...");
+    reset_card()
+        .map_err(|e| format!("Failed to reset Yubikey: {}", e))?;
 
     // Parse the certificate to find subkeys
     let cert_info = parse_cert_bytes(&secret_key, true)

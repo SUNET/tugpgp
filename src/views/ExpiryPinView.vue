@@ -56,9 +56,9 @@ async function updateExpiry() {
 
       <table class="info-table">
         <tbody>
-          <tr>
-            <th>User ID</th>
-            <td>{{ keyData.userId }}</td>
+          <tr v-for="(uid, index) in keyData.userIds.filter(u => !u.revoked)" :key="uid.value">
+            <th>{{ index === 0 ? 'User ID' : '' }}</th>
+            <td>{{ uid.value }}</td>
           </tr>
           <tr>
             <th>Fingerprint</th>
