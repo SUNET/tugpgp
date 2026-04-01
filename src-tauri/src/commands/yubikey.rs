@@ -3,7 +3,7 @@ use std::path::Path;
 use tauri::State;
 use chrono::{NaiveDate, TimeZone, Utc};
 use wecanencrypt::{
-    parse_cert_bytes, get_pub_key, KeyType,
+    parse_cert_bytes, KeyType,
     card::{
         is_card_connected, reset_card, upload_primary_key_to_card, upload_key_to_card,
         change_user_pin, change_admin_pin,
@@ -156,7 +156,8 @@ pub async fn update_key_expiry(
     let naive_date = NaiveDate::parse_from_str(&new_date, "%Y-%m-%d")
         .map_err(|e| format!("Invalid date format: {}", e))?;
     let datetime = Utc.from_utc_datetime(&naive_date.and_hms_opt(0, 0, 0).unwrap());
-    let expiry_time = datetime.timestamp() as u64;
+    let now = Utc::now().timestamp() as u64;
+    let expiry_time = (datetime.timestamp() as u64).saturating_sub(now);
 
     // Get all subkey fingerprints for updating
     let cert_info = parse_cert_bytes(&cert_data, true)
@@ -185,17 +186,13 @@ pub async fn update_key_expiry(
         pin.as_bytes(),
     ).map_err(|e| format!("Failed to update subkeys expiry: {}", e))?;
 
-    // Get the updated public key (armored)
-    let updated_pub_key = get_pub_key(&final_cert)
-        .map_err(|e| format!("Failed to export public key: {}", e))?;
-
-    // Save to same directory with updated filename
+    // Save the updated public key (already armored from update_subkeys_expiry_on_card)
     let path = Path::new(&key_path);
     let parent = path.parent().unwrap_or(Path::new("."));
     let updated_filename = format!("updated_{}.pub", cert_info.fingerprint);
     let updated_path = parent.join(&updated_filename);
 
-    fs::write(&updated_path, updated_pub_key)
+    fs::write(&updated_path, &final_cert)
         .map_err(|e| format!("Failed to save updated key: {}", e))?;
 
     let updated_path_str = updated_path.to_string_lossy().to_string();
