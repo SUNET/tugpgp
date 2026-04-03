@@ -96,6 +96,25 @@ build-rpm base_image="fedora:43":
     docker cp "$CONTAINER_ID:/app/src-tauri/target/release/bundle/rpm/." "$OUTPUT_DIR/"
     docker rm "$CONTAINER_ID"
 
+    # Rename RPM files to include distro tag
+    # e.g., tugpgp-0.3.1-1.x86_64.rpm -> tugpgp-0.3.1-1.fc43.x86_64.rpm
+    # Extract distro short name: fedora -> fc, centos -> el, etc.
+    distro=$(echo "$BASE_IMAGE" | cut -d: -f1)
+    ver=$(echo "$BASE_IMAGE" | cut -d: -f2)
+    case "$distro" in
+        fedora) distro_tag="fc${ver}" ;;
+        centos|rocky|alma) distro_tag="el${ver}" ;;
+        *) distro_tag="${distro}${ver}" ;;
+    esac
+    for f in "$OUTPUT_DIR"/*.rpm; do
+        [ -f "$f" ] || continue
+        basename=$(basename "$f")
+        newname=$(echo "$basename" | sed "s/\.\(x86_64\|aarch64\)\.rpm/.${distro_tag}.\1.rpm/")
+        if [ "$basename" != "$newname" ]; then
+            mv "$f" "$OUTPUT_DIR/$newname"
+        fi
+    done
+
     echo ""
     echo "RPM package(s) for $BASE_IMAGE available in $OUTPUT_DIR/"
     ls -la "$OUTPUT_DIR/"*.rpm 2>/dev/null || echo "No RPM files found"
@@ -135,6 +154,20 @@ build-deb base_image="debian:13":
     docker cp "$CONTAINER_ID:/app/src-tauri/target/release/bundle/deb/." "$OUTPUT_DIR/"
     docker rm "$CONTAINER_ID"
 
+    # Rename DEB files to include distro name
+    # e.g., tugpgp_0.3.1_amd64.deb -> tugpgp_0.3.1_debian12_amd64.deb
+    distro_tag=$(echo "$DISTRO_NAME" | tr '-' '')
+    for f in "$OUTPUT_DIR"/*.deb; do
+        [ -f "$f" ] || continue
+        basename=$(basename "$f")
+        # Insert distro tag before the arch suffix
+        # tugpgp_0.3.1_amd64.deb -> tugpgp_0.3.1_debian12_amd64.deb
+        newname=$(echo "$basename" | sed "s/_\(amd64\|arm64\|armhf\)\.deb/_${distro_tag}_\1.deb/")
+        if [ "$basename" != "$newname" ]; then
+            mv "$f" "$OUTPUT_DIR/$newname"
+        fi
+    done
+
     echo ""
     echo "DEB package(s) for $BASE_IMAGE available in $OUTPUT_DIR/"
     ls -la "$OUTPUT_DIR/"*.deb 2>/dev/null || echo "No DEB files found"
@@ -153,6 +186,30 @@ build-all-deb:
     just build-deb debian:12
     just build-deb ubuntu:24.04
     just build-deb ubuntu:22.04
+
+# Collect all built packages into dist/release/ for GitHub upload
+collect-release:
+    #!/usr/bin/env bash
+    set -e
+    mkdir -p dist/release
+    find dist -maxdepth 2 -name '*.rpm' -o -name '*.deb' | while read f; do
+        cp "$f" dist/release/
+    done
+    echo "Release packages collected in dist/release/:"
+    ls -la dist/release/
+
+# Sign all packages in dist/release/ with GPG detached signatures
+sign:
+    #!/usr/bin/env bash
+    set -e
+    for f in dist/release/*.rpm dist/release/*.deb; do
+        [ -f "$f" ] || continue
+        echo "Signing $f ..."
+        gpg --armor --detach-sign "$f"
+    done
+    echo ""
+    echo "Signed packages:"
+    ls -la dist/release/*.asc 2>/dev/null || echo "No signatures found"
 
 # Lint frontend code
 lint:
