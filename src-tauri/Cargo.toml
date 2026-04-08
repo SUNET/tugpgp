@@ -2,7 +2,7 @@
 name = "tugpgp"
 version = "0.3.1"
 description = "OpenPGP Key Generation and Yubikey Upload Tool"
-authors = ["you"]
+authors = ["Kushal Das"]
 edition = "2021"
 
 [lib]
