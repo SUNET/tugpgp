@@ -115,7 +115,7 @@ pub async fn generate_key(
     // Store the secret key and password in state for later upload to Yubikey
     {
         let mut sk = state.secret_key.lock().unwrap();
-        *sk = Some(generated.secret_key.clone());
+        *sk = Some(generated.secret_key.to_vec());
     }
     {
         let mut pw = state.key_password.lock().unwrap();

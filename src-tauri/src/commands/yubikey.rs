@@ -43,7 +43,7 @@ pub async fn upload_to_yubikey(state: State<'_, AppState>) -> Result<(), String>
 
     // Reset the Yubikey to factory defaults before uploading
     println!("Resetting Yubikey to factory defaults...");
-    reset_card()
+    reset_card(None)
         .map_err(|e| format!("Failed to reset Yubikey: {}", e))?;
 
     // Parse the certificate to find subkeys
@@ -92,15 +92,15 @@ pub async fn upload_to_yubikey(state: State<'_, AppState>) -> Result<(), String>
     // Signing and Decryption: Fixed (permanent, requires touch for every operation)
     // Authentication: On (requires touch, but can be changed later)
     println!("Setting touch mode for Signing slot to Fixed...");
-    set_touch_mode(KeySlot::Signature, TouchMode::Fixed, DEFAULT_ADMIN_PIN)
+    set_touch_mode(KeySlot::Signature, TouchMode::Fixed, DEFAULT_ADMIN_PIN, None)
         .map_err(|e| format!("Failed to set touch mode for signing: {}", e))?;
 
     println!("Setting touch mode for Decryption slot to Fixed...");
-    set_touch_mode(KeySlot::Encryption, TouchMode::Fixed, DEFAULT_ADMIN_PIN)
+    set_touch_mode(KeySlot::Encryption, TouchMode::Fixed, DEFAULT_ADMIN_PIN, None)
         .map_err(|e| format!("Failed to set touch mode for decryption: {}", e))?;
 
     println!("Setting touch mode for Authentication slot to On...");
-    set_touch_mode(KeySlot::Authentication, TouchMode::On, DEFAULT_ADMIN_PIN)
+    set_touch_mode(KeySlot::Authentication, TouchMode::On, DEFAULT_ADMIN_PIN, None)
         .map_err(|e| format!("Failed to set touch mode for authentication: {}", e))?;
 
     println!("Upload complete!");
@@ -116,7 +116,7 @@ pub fn set_user_pin(pin: String) -> Result<(), String> {
     }
 
     // Change from default PIN to new PIN
-    change_user_pin(DEFAULT_USER_PIN, pin.as_bytes())
+    change_user_pin(DEFAULT_USER_PIN, pin.as_bytes(), None)
         .map_err(|e| format!("Failed to set user PIN: {}", e))?;
 
     println!("User PIN set successfully");
@@ -132,7 +132,7 @@ pub fn set_admin_pin(pin: String) -> Result<(), String> {
     }
 
     // Change from default PIN to new PIN
-    change_admin_pin(DEFAULT_ADMIN_PIN, pin.as_bytes())
+    change_admin_pin(DEFAULT_ADMIN_PIN, pin.as_bytes(), None)
         .map_err(|e| format!("Failed to set admin PIN: {}", e))?;
 
     println!("Admin PIN set successfully");

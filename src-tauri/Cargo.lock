@@ -5018,9 +5018,9 @@ dependencies = [
 
 [[package]]
 name = "talktosc"
-version = "0.2.0"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e3f752276a77f27ce7ad75ee84c8aecd292867fb08311b0a77011ee1896c14dc"
+checksum = "cb789439e6d5af0dd326583abe6e13493925bd22fb14c8ebf9ea1f9bd901f511"
 dependencies = [
  "pcsc",
  "thiserror 1.0.69",
@@ -6209,9 +6209,9 @@ dependencies = [
 
 [[package]]
 name = "wecanencrypt"
-version = "0.4.0"
+version = "0.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9e697537802aec42551e7bf3deaf211e0a2907724aaa992ed5cc7ce900547f0c"
+checksum = "975c69a6616f56ea0a0c7f84eb6c4fab8540986317b99a53972af7d52ed48727"
 dependencies = [
  "aes",
  "aes-kw",
