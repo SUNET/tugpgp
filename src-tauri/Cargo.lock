@@ -3267,18 +3267,17 @@ dependencies = [
 
 [[package]]
 name = "openpgp-card"
-version = "0.5.1"
+version = "0.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "56d9f9032bc868b82b289dddf471434b96c1f229898c2497d847c5b056a2cc6d"
+checksum = "c5a3953947ab2bc105fd007670101c13a61e4fc41f04cd1b537f6fabbbc16a7b"
 dependencies = [
  "card-backend",
- "chrono",
  "hex-slice",
  "log",
  "nom 7.1.3",
  "secrecy",
  "sha2",
- "thiserror 1.0.69",
+ "thiserror 2.0.17",
 ]
 
 [[package]]
@@ -4427,9 +4426,9 @@ dependencies = [
 
 [[package]]
 name = "secrecy"
-version = "0.8.0"
+version = "0.10.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9bd1c54ea06cfd2f6b63219704de0b9b4f72dcc2b8fdef820be6cd799780e91e"
+checksum = "e891af845473308773346dc847b2c23ee78fe442e0472ac50e22a18a93d3ae5a"
 dependencies = [
  "zeroize",
 ]
@@ -5014,16 +5013,6 @@ dependencies = [
  "pkg-config",
  "toml 0.8.2",
  "version-compare",
-]
-
-[[package]]
-name = "talktosc"
-version = "0.3.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cb789439e6d5af0dd326583abe6e13493925bd22fb14c8ebf9ea1f9bd901f511"
-dependencies = [
- "pcsc",
- "thiserror 1.0.69",
 ]
 
 [[package]]
@@ -6209,9 +6198,9 @@ dependencies = [
 
 [[package]]
 name = "wecanencrypt"
-version = "0.6.0"
+version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "975c69a6616f56ea0a0c7f84eb6c4fab8540986317b99a53972af7d52ed48727"
+checksum = "4cbd8af4923a7466f8d391f084e47245d56d0e18bddfe963f6d67655c7e85604"
 dependencies = [
  "aes",
  "aes-kw",
@@ -6219,6 +6208,7 @@ dependencies = [
  "card-backend-pcsc",
  "chrono",
  "digest",
+ "ed25519-dalek",
  "hex",
  "hkdf",
  "openpgp-card",
@@ -6234,7 +6224,6 @@ dependencies = [
  "sha1",
  "sha2",
  "sshkeys",
- "talktosc",
  "thiserror 2.0.17",
  "zeroize",
 ]

@@ -83,7 +83,7 @@ pub async fn generate_key(
     let generated = create_key(
         &password,
         &user_id_refs,
-        CipherSuite::Cv25519,
+        CipherSuite::Rsa4k,
         None,          // creation_time (use default)
         Some(expiry),  // expiration_time (2 years)
         Some(expiry),  // subkeys_expiration (2 years)
