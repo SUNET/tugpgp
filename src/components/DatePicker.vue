@@ -150,7 +150,7 @@ onUnmounted(() => {
 
 <template>
   <div class="date-picker" ref="pickerRef">
-    <div class="date-input" @click="togglePicker">
+    <div class="date-input" @click="togglePicker" data-testid="datepicker-input">
       <span :class="{ placeholder: !modelValue }">{{ displayDate }}</span>
       <svg class="calendar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
@@ -160,11 +160,11 @@ onUnmounted(() => {
       </svg>
     </div>
 
-    <div v-if="isOpen" class="calendar-dropdown">
+    <div v-if="isOpen" class="calendar-dropdown" data-testid="datepicker-calendar">
       <div class="calendar-header">
-        <button type="button" class="nav-btn" @click="prevMonth">&lt;</button>
-        <span class="month-label">{{ currentMonthName }}</span>
-        <button type="button" class="nav-btn" @click="nextMonth">&gt;</button>
+        <button type="button" class="nav-btn" @click="prevMonth" data-testid="datepicker-prev">&lt;</button>
+        <span class="month-label" data-testid="datepicker-month-label">{{ currentMonthName }}</span>
+        <button type="button" class="nav-btn" @click="nextMonth" data-testid="datepicker-next">&gt;</button>
       </div>
 
       <div class="calendar-grid">

@@ -10,13 +10,13 @@ function goNext() {
 </script>
 
 <template>
-  <div class="start-view">
+  <div class="start-view" data-testid="start-view">
     <div class="content">
-      <p class="welcome-text">Welcome to Tugpgp.</p>
-      <p class="welcome-text">Click next to begin the process.</p>
+      <p class="welcome-text" data-testid="start-heading">Welcome to Tugpgp.</p>
+      <p class="welcome-text" data-testid="start-message">Click next to begin the process.</p>
     </div>
     <div class="actions">
-      <TButton text="Next" @click="goNext" />
+      <TButton text="Next" @click="goNext" data-testid="btn-start-next" />
     </div>
   </div>
 </template>

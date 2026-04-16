@@ -25,5 +25,5 @@ onMounted(async () => {
 </script>
 
 <template>
-  <WaitSpinner message="Generating keys..." />
+  <WaitSpinner message="Generating keys..." data-testid="generating-spinner" />
 </template>

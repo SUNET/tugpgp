@@ -12,16 +12,16 @@ function goToUpdateExpiry() {
 
 <template>
   <div class="layout">
-    <aside class="sidebar">
+    <aside class="sidebar" data-testid="sidebar">
       <div class="sidebar-content">
-        <img :src="sunetLogo" alt="SUNET Logo" class="logo" />
+        <img :src="sunetLogo" alt="SUNET Logo" class="logo" data-testid="sidebar-logo" />
         <div class="sidebar-spacer"></div>
-        <button class="expiry-btn" @click="goToUpdateExpiry" title="Update Expiry">
+        <button class="expiry-btn" @click="goToUpdateExpiry" title="Update Expiry" data-testid="sidebar-expiry-btn">
           <img :src="calendarIcon" alt="Update Expiry" class="expiry-icon" />
         </button>
       </div>
     </aside>
-    <main class="main-content">
+    <main class="main-content" data-testid="main-content">
       <slot></slot>
     </main>
   </div>

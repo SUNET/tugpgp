@@ -20,20 +20,20 @@ async function done() {
 </script>
 
 <template>
-  <div class="final-view">
+  <div class="final-view" data-testid="final-view">
     <div class="success-content">
-      <img :src="checkIcon" alt="Success" class="check-icon" />
-      <h1>Your Yubikey is now ready.</h1>
+      <img :src="checkIcon" alt="Success" class="check-icon" data-testid="final-success-icon" />
+      <h1 data-testid="final-heading">Your Yubikey is now ready.</h1>
     </div>
 
-    <p class="description">
+    <p class="description" data-testid="final-description">
       Your OpenPGP keys have been generated and uploaded to your Yubikey.
       You can now use your Yubikey for encryption, signing, and authentication.
     </p>
 
     <div class="actions">
-      <TButton text="Create Backup Key" variant="orange" @click="createBackupKey" />
-      <TButton text="Done" @click="done" />
+      <TButton text="Create Backup Key" variant="orange" @click="createBackupKey" data-testid="btn-backup" />
+      <TButton text="Done" @click="done" data-testid="btn-done" />
     </div>
   </div>
 </template>

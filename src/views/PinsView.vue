@@ -62,14 +62,14 @@ async function setPin() {
 </script>
 
 <template>
-  <div class="pins-view">
-    <h1>{{ title }}</h1>
+  <div class="pins-view" :data-testid="`pins-${pinType}-view`">
+    <h1 :data-testid="`pins-${pinType}-heading`">{{ title }}</h1>
 
     <div class="form-group">
       <label>{{ isUserPin ? 'User PIN' : 'Admin PIN' }}</label>
       <div class="input-with-indicator">
         <PinEntry v-model="pin" :placeholder="`Enter ${pinType} PIN`" :name="`${pinType}-pin-entry`" />
-        <span v-if="pinLengthOk" class="check-indicator">
+        <span v-if="pinLengthOk" class="check-indicator" :data-testid="`pin-check-length-${pinType}`">
           <img :src="checkIcon" alt="OK" />
         </span>
       </div>
@@ -80,17 +80,17 @@ async function setPin() {
       <label>Repeat PIN</label>
       <div class="input-with-indicator">
         <PinEntry v-model="repeatPin" placeholder="Repeat PIN" :name="`${pinType}-pin-repeat`" />
-        <span v-if="pinsMatch" class="check-indicator match">
+        <span v-if="pinsMatch" class="check-indicator match" :data-testid="`pin-check-match-${pinType}`">
           <img :src="checkIcon" alt="Match" />
         </span>
       </div>
-      <span v-if="repeatPin.length > 0 && !pinsMatch" class="mismatch-hint">PINs do not match</span>
+      <span v-if="repeatPin.length > 0 && !pinsMatch" class="mismatch-hint" :data-testid="`pin-mismatch-${pinType}`">PINs do not match</span>
     </div>
 
-    <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+    <p v-if="errorMessage" class="error-message" :data-testid="`pins-${pinType}-error`">{{ errorMessage }}</p>
 
     <div class="actions">
-      <TButton text="Next" @click="setPin" :disabled="!canSubmit" />
+      <TButton text="Next" @click="setPin" :disabled="!canSubmit" :data-testid="`btn-pins-${pinType}-next`" />
     </div>
   </div>
 </template>

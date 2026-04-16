@@ -11,14 +11,14 @@ function goNext() {
 </script>
 
 <template>
-  <div class="upload-success-view">
+  <div class="upload-success-view" data-testid="upload-success-view">
     <div class="success-content">
-      <img :src="successIcon" alt="Success" class="success-icon" />
-      <p class="message">Upload successful. Click next to continue.</p>
+      <img :src="successIcon" alt="Success" class="success-icon" data-testid="upload-success-icon" />
+      <p class="message" data-testid="upload-success-message">Upload successful. Click next to continue.</p>
     </div>
 
     <div class="actions">
-      <TButton text="Next" @click="goNext" />
+      <TButton text="Next" @click="goNext" data-testid="btn-upload-success-next" />
     </div>
   </div>
 </template>

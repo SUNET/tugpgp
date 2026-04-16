@@ -10,9 +10,9 @@ defineProps({
 </script>
 
 <template>
-  <div class="wait-spinner">
+  <div class="wait-spinner" data-testid="wait-spinner">
     <img :src="hourglassIcon" alt="Loading" class="hourglass" />
-    <p class="message">{{ message }}</p>
+    <p class="message" data-testid="wait-message">{{ message }}</p>
   </div>
 </template>
 

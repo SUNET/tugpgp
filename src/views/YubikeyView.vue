@@ -39,18 +39,18 @@ async function handleClick() {
 </script>
 
 <template>
-  <div class="yubikey-view">
-    <h1>Connect Yubikey</h1>
+  <div class="yubikey-view" data-testid="yubikey-view">
+    <h1 data-testid="yubikey-heading">Connect Yubikey</h1>
 
     <div class="yubikey-image">
-      <img :src="yubikeyImg" alt="Yubikey" />
+      <img :src="yubikeyImg" alt="Yubikey" data-testid="yubikey-image" />
     </div>
 
-    <p class="instruction">
+    <p class="instruction" data-testid="yubikey-instruction">
       Please connect your Yubikey, and click next.
     </p>
 
-    <div v-if="showWarning" class="warning-box">
+    <div v-if="showWarning" class="warning-box" data-testid="yubikey-warning">
       <img :src="warningIcon" alt="Warning" class="warning-icon" />
       <div class="warning-text">
         <strong>Warning:</strong> This will overwrite any existing keys on your Yubikey.
@@ -58,10 +58,10 @@ async function handleClick() {
       </div>
     </div>
 
-    <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+    <p v-if="errorMessage" class="error-message" data-testid="yubikey-error">{{ errorMessage }}</p>
 
     <div class="actions">
-      <TButton :text="showWarning ? 'Confirm' : 'Next'" @click="handleClick" />
+      <TButton :text="showWarning ? 'Confirm' : 'Next'" @click="handleClick" data-testid="btn-yubikey-next" />
     </div>
   </div>
 </template>

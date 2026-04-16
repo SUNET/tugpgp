@@ -48,35 +48,35 @@ async function updateExpiry() {
 </script>
 
 <template>
-  <div class="expiry-pin-view">
-    <h1>Confirm Expiry Update</h1>
+  <div class="expiry-pin-view" data-testid="expiry-pin-view">
+    <h1 data-testid="expiry-pin-heading">Confirm Expiry Update</h1>
 
-    <div v-if="keyData" class="key-info">
+    <div v-if="keyData" class="key-info" data-testid="expiry-key-info">
       <h2>Key Information</h2>
 
-      <table class="info-table">
+      <table class="info-table" data-testid="expiry-info-table">
         <tbody>
           <tr v-for="(uid, index) in keyData.userIds.filter(u => !u.revoked)" :key="uid.value">
             <th>{{ index === 0 ? 'User ID' : '' }}</th>
-            <td>{{ uid.value }}</td>
+            <td data-testid="expiry-uid">{{ uid.value }}</td>
           </tr>
           <tr>
             <th>Fingerprint</th>
-            <td class="monospace">{{ keyData.fingerprint }}</td>
+            <td class="monospace" data-testid="expiry-fingerprint">{{ keyData.fingerprint }}</td>
           </tr>
           <tr>
             <th>Current Expiry</th>
-            <td>{{ keyData.expiry }}</td>
+            <td data-testid="expiry-current">{{ keyData.expiry }}</td>
           </tr>
           <tr>
             <th>New Expiry</th>
-            <td>{{ formattedNewDate }}</td>
+            <td data-testid="expiry-new">{{ formattedNewDate }}</td>
           </tr>
         </tbody>
       </table>
 
       <h3>Subkeys</h3>
-      <table class="subkeys-table">
+      <table class="subkeys-table" data-testid="expiry-subkeys-table">
         <thead>
           <tr>
             <th>Type</th>
@@ -85,10 +85,10 @@ async function updateExpiry() {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="subkey in keyData.subkeys" :key="subkey.fingerprint">
-            <td>{{ subkey.keyType }}</td>
-            <td class="monospace">{{ subkey.fingerprint }}</td>
-            <td>{{ subkey.expiry }}</td>
+          <tr v-for="subkey in keyData.subkeys" :key="subkey.fingerprint" data-testid="expiry-subkey-row">
+            <td data-testid="expiry-subkey-type">{{ subkey.keyType }}</td>
+            <td class="monospace" data-testid="expiry-subkey-fp">{{ subkey.fingerprint }}</td>
+            <td data-testid="expiry-subkey-expiry">{{ subkey.expiry }}</td>
           </tr>
         </tbody>
       </table>
@@ -96,17 +96,18 @@ async function updateExpiry() {
 
     <div class="form-group">
       <label>Yubikey PIN</label>
-      <PinEntry v-model="pin" placeholder="Enter Yubikey PIN" />
+      <PinEntry v-model="pin" placeholder="Enter Yubikey PIN" name="expiry-pin" data-testid="pin-expiry" />
       <span class="hint">Touch the Yubikey when it starts flashing</span>
     </div>
 
-    <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+    <p v-if="errorMessage" class="error-message" data-testid="expiry-pin-error">{{ errorMessage }}</p>
 
     <div class="actions">
       <TButton
         text="Update"
         @click="updateExpiry"
         :disabled="isUpdating"
+        data-testid="btn-expiry-update"
       />
     </div>
   </div>

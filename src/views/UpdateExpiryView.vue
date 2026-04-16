@@ -61,8 +61,8 @@ async function goNext() {
 </script>
 
 <template>
-  <div class="update-expiry-view">
-    <h1>Update Key Expiry</h1>
+  <div class="update-expiry-view" data-testid="update-expiry-view">
+    <h1 data-testid="update-expiry-heading">Update Key Expiry</h1>
 
     <div class="form-group">
       <label>Public Key File</label>
@@ -73,21 +73,22 @@ async function goNext() {
           readonly
           placeholder="No file selected"
           class="file-input"
+          data-testid="input-key-path"
         />
-        <TButton text="Browse" @click="selectFile" />
+        <TButton text="Browse" @click="selectFile" data-testid="btn-browse-key" />
       </div>
     </div>
 
     <div class="form-group">
       <label>New Expiry Date</label>
-      <DatePicker v-model="newDate" :min-date="minDate" />
+      <DatePicker v-model="newDate" :min-date="minDate" data-testid="datepicker-expiry" />
       <span class="hint">Select the new expiry date</span>
     </div>
 
-    <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+    <p v-if="errorMessage" class="error-message" data-testid="update-expiry-error">{{ errorMessage }}</p>
 
     <div class="actions">
-      <TButton text="Next" @click="goNext" />
+      <TButton text="Next" @click="goNext" data-testid="btn-expiry-next" />
     </div>
   </div>
 </template>

@@ -13,17 +13,17 @@ async function closeApp() {
 </script>
 
 <template>
-  <div class="error-view">
+  <div class="error-view" data-testid="error-view">
     <div class="error-content">
-      <img :src="errorIcon" alt="Error" class="error-icon" />
+      <img :src="errorIcon" alt="Error" class="error-icon" data-testid="error-icon" />
       <div class="error-text">
-        <h1>An Error Occurred</h1>
-        <p class="message">{{ store.errorMessage || 'There was an unexpected error. Please try again.' }}</p>
+        <h1 data-testid="error-heading">An Error Occurred</h1>
+        <p class="message" data-testid="error-message">{{ store.errorMessage || 'There was an unexpected error. Please try again.' }}</p>
       </div>
     </div>
 
     <div class="actions">
-      <TButton text="Close" @click="closeApp" />
+      <TButton text="Close" @click="closeApp" data-testid="btn-error-close" />
     </div>
   </div>
 </template>

@@ -91,8 +91,8 @@ function goNext() {
 </script>
 
 <template>
-  <div class="save-dir-view">
-    <h1>{{ title }}</h1>
+  <div class="save-dir-view" data-testid="save-dir-view">
+    <h1 data-testid="save-dir-heading">{{ title }}</h1>
 
     <div class="form-group">
       <label>Directory</label>
@@ -103,26 +103,27 @@ function goNext() {
           readonly
           placeholder="No directory selected"
           class="dir-input"
+          data-testid="input-save-dir"
         />
-        <TButton text="Browse" @click="selectDirectory" />
+        <TButton text="Browse" @click="selectDirectory" data-testid="btn-browse-dir" />
       </div>
     </div>
 
-    <div v-if="selectedDir" class="file-preview">
-      <p>File will be saved as: <strong>{{ filename }}</strong></p>
+    <div v-if="selectedDir" class="file-preview" data-testid="save-file-preview">
+      <p>File will be saved as: <strong data-testid="save-filename">{{ filename }}</strong></p>
       <div v-if="hasSSHKey" class="ssh-option">
         <label class="checkbox-label">
-          <input type="checkbox" v-model="saveSSH" />
+          <input type="checkbox" v-model="saveSSH" data-testid="checkbox-ssh" />
           <span>Also save SSH public key as <strong>{{ sshFilename }}</strong></span>
         </label>
       </div>
     </div>
 
-    <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+    <p v-if="errorMessage" class="error-message" data-testid="save-dir-error">{{ errorMessage }}</p>
 
     <div class="actions">
-      <TButton v-if="!isPublic" text="Skip" variant="orange" @click="skip" />
-      <TButton text="Save" @click="saveKey" :disabled="!selectedDir" />
+      <TButton v-if="!isPublic" text="Skip" variant="orange" @click="skip" data-testid="btn-skip-save" />
+      <TButton text="Save" @click="saveKey" :disabled="!selectedDir" data-testid="btn-save-key" />
     </div>
   </div>
 </template>

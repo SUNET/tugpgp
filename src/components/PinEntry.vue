@@ -42,6 +42,7 @@ function onInput(event) {
       :value="modelValue"
       :placeholder="placeholder"
       :name="props.name"
+      :data-testid="`pin-input-${props.name}`"
       @input="onInput"
       @blur="onBlur"
       class="pin-input"
@@ -57,6 +58,7 @@ function onInput(event) {
       class="toggle-btn"
       @click="toggleVisibility"
       tabindex="-1"
+      :data-testid="`pin-toggle-${props.name}`"
     >
       <img :src="isVisible ? eyeVisible : eyeHidden" alt="Toggle visibility" />
     </button>

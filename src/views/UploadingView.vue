@@ -20,5 +20,5 @@ onMounted(async () => {
 </script>
 
 <template>
-  <WaitSpinner message="Uploading to Yubikey..." />
+  <WaitSpinner message="Uploading to Yubikey..." data-testid="uploading-spinner" />
 </template>

@@ -42,8 +42,8 @@ function goNext() {
 </script>
 
 <template>
-  <div class="user-details-view">
-    <h1>User Details</h1>
+  <div class="user-details-view" data-testid="user-details-view">
+    <h1 data-testid="user-details-heading">User Details</h1>
 
     <div class="form-group">
       <label for="fullName">Full Name</label>
@@ -54,6 +54,7 @@ function goNext() {
         placeholder="Enter your full name"
         class="text-input"
         autofocus
+        data-testid="input-fullname"
       />
     </div>
 
@@ -65,6 +66,7 @@ function goNext() {
         placeholder="Enter email addresses (one per line)"
         class="textarea-input"
         rows="3"
+        data-testid="input-emails"
       ></textarea>
       <span class="hint">Enter one email address per line</span>
     </div>
@@ -75,13 +77,14 @@ function goNext() {
         v-model="password"
         placeholder="Enter password"
         name="secret-key-password"
+        data-testid="pin-password"
       />
     </div>
 
-    <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+    <p v-if="errorMessage" class="error-message" data-testid="user-details-error">{{ errorMessage }}</p>
 
     <div class="actions">
-      <TButton text="Next" @click="goNext" />
+      <TButton text="Next" @click="goNext" data-testid="btn-user-details-next" />
     </div>
   </div>
 </template>

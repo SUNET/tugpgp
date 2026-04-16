@@ -13,18 +13,18 @@ function goHome() {
 </script>
 
 <template>
-  <div class="update-success-view">
+  <div class="update-success-view" data-testid="update-success-view">
     <div class="success-content">
-      <img :src="checkIcon" alt="Success" class="check-icon" />
+      <img :src="checkIcon" alt="Success" class="check-icon" data-testid="update-success-icon" />
       <div class="success-text">
-        <h1>Expiry Updated Successfully</h1>
+        <h1 data-testid="update-success-heading">Expiry Updated Successfully</h1>
         <p class="message">Updated public key saved to:</p>
-        <p class="file-path">{{ store.expiry.updatedFilePath }}</p>
+        <p class="file-path" data-testid="update-success-path">{{ store.expiry.updatedFilePath }}</p>
       </div>
     </div>
 
     <div class="actions">
-      <TButton text="Done" @click="goHome" />
+      <TButton text="Done" @click="goHome" data-testid="btn-update-done" />
     </div>
   </div>
 </template>
