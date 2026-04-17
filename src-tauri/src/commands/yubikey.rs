@@ -3,7 +3,7 @@ use std::path::Path;
 use tauri::State;
 use chrono::{NaiveDate, TimeZone, Utc};
 use wecanencrypt::{
-    parse_cert_bytes, KeyType,
+    parse_key_bytes, KeyType,
     card::{
         is_card_connected, reset_card, upload_primary_key_to_card, upload_key_to_card,
         change_user_pin, change_admin_pin,
@@ -47,7 +47,7 @@ pub async fn upload_to_yubikey(state: State<'_, AppState>) -> Result<(), String>
         .map_err(|e| format!("Failed to reset Yubikey: {}", e))?;
 
     // Parse the certificate to find subkeys
-    let cert_info = parse_cert_bytes(&secret_key, true)
+    let cert_info = parse_key_bytes(&secret_key, true)
         .map_err(|e| format!("Failed to parse certificate: {}", e))?;
 
     // Upload primary key to Signing slot (it has signing capability)
@@ -160,7 +160,7 @@ pub async fn update_key_expiry(
     let expiry_time = (datetime.timestamp() as u64).saturating_sub(now);
 
     // Get all subkey fingerprints for updating
-    let cert_info = parse_cert_bytes(&cert_data, true)
+    let cert_info = parse_key_bytes(&cert_data, true)
         .map_err(|e| format!("Failed to parse certificate: {}", e))?;
 
     let subkey_fps: Vec<String> = cert_info.subkeys

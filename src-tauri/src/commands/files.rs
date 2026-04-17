@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use std::fs;
 use std::path::Path;
-use wecanencrypt::{parse_cert_file, KeyType};
+use wecanencrypt::{parse_key_file, KeyType};
 
 use super::keygen::SubkeyInfo;
 
@@ -52,7 +52,7 @@ pub fn parse_public_key(file_path: String) -> Result<ParsedKeyData, String> {
     }
 
     // Parse the certificate file
-    let cert_info = parse_cert_file(&file_path, true)
+    let cert_info = parse_key_file(&file_path, true)
         .map_err(|e| format!("Failed to parse key file: {}", e))?;
 
     // Build user ID list with revocation status

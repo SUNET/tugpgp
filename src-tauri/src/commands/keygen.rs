@@ -2,7 +2,7 @@ use chrono::Utc;
 use serde::{Deserialize, Serialize};
 use tauri::State;
 use wecanencrypt::{
-    create_key, parse_cert_bytes, get_ssh_pubkey,
+    create_key, parse_key_bytes, get_ssh_pubkey,
     CipherSuite, SubkeyFlags, KeyType,
 };
 
@@ -93,7 +93,7 @@ pub async fn generate_key(
     ).map_err(|e| format!("Key generation failed: {}", e))?;
 
     // Parse the generated certificate to get subkey information
-    let cert_info = parse_cert_bytes(&generated.secret_key, true)
+    let cert_info = parse_key_bytes(&generated.secret_key, true)
         .map_err(|e| format!("Failed to parse generated key: {}", e))?;
 
     // Build subkey info list
