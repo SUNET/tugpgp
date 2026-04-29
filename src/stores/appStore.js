@@ -5,7 +5,7 @@ export const useAppStore = defineStore('app', {
     // User input from form
     fullName: '',
     emails: [],
-    password: '',
+    keyType: 'rsa4k',
 
     // Generated key data (from Rust backend)
     keyData: {
@@ -37,10 +37,10 @@ export const useAppStore = defineStore('app', {
   }),
 
   actions: {
-    setUserDetails(name, emails, password) {
+    setUserDetails(name, emails, keyType) {
       this.fullName = name
       this.emails = emails
-      this.password = password
+      this.keyType = keyType
     },
 
     setKeyData(data) {
@@ -89,7 +89,7 @@ export const useAppStore = defineStore('app', {
     reset() {
       this.fullName = ''
       this.emails = []
-      this.password = ''
+      this.keyType = 'rsa4k'
       this.keyData = {
         publicKey: '',
         secretKey: '',

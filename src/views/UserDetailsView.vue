@@ -3,14 +3,13 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAppStore } from '../stores/appStore'
 import TButton from '../components/TButton.vue'
-import PinEntry from '../components/PinEntry.vue'
 
 const router = useRouter()
 const store = useAppStore()
 
 const fullName = ref('')
 const emailsText = ref('')
-const password = ref('')
+const keyType = ref('rsa4k')
 const errorMessage = ref('')
 
 function goNext() {
@@ -31,12 +30,7 @@ function goNext() {
     return
   }
 
-  if (!password.value) {
-    errorMessage.value = 'Please enter a password for your secret key'
-    return
-  }
-
-  store.setUserDetails(fullName.value.trim(), emails, password.value)
+  store.setUserDetails(fullName.value.trim(), emails, keyType.value)
   router.push('/generating')
 }
 </script>
@@ -72,13 +66,36 @@ function goNext() {
     </div>
 
     <div class="form-group">
-      <label for="password">Password for Secret Key</label>
-      <PinEntry
-        v-model="password"
-        placeholder="Enter password"
-        name="secret-key-password"
-        data-testid="pin-password"
-      />
+      <span id="key-type-label" class="group-label">Key Type</span>
+      <div
+        class="radio-group"
+        role="radiogroup"
+        aria-labelledby="key-type-label"
+        data-testid="radiogroup-key-type"
+      >
+        <label class="radio-option" for="key-type-rsa4k">
+          <input
+            id="key-type-rsa4k"
+            type="radio"
+            name="keyType"
+            value="rsa4k"
+            v-model="keyType"
+            data-testid="radio-key-type-rsa4k"
+          />
+          <span>RSA 4096</span>
+        </label>
+        <label class="radio-option" for="key-type-cv25519">
+          <input
+            id="key-type-cv25519"
+            type="radio"
+            name="keyType"
+            value="cv25519"
+            v-model="keyType"
+            data-testid="radio-key-type-cv25519"
+          />
+          <span>Curve25519</span>
+        </label>
+      </div>
     </div>
 
     <p v-if="errorMessage" class="error-message" data-testid="user-details-error">{{ errorMessage }}</p>
@@ -111,6 +128,36 @@ h1 {
   font-weight: 500;
   margin-bottom: 8px;
   font-size: var(--font-size-small);
+}
+
+.group-label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 8px;
+  font-size: var(--font-size-small);
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--font-size-normal);
+  font-weight: 400;
+  margin-bottom: 0;
+  cursor: pointer;
+}
+
+.radio-option input[type="radio"] {
+  accent-color: var(--color-primary);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
 }
 
 .text-input {

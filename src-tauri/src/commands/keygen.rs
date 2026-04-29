@@ -1,4 +1,5 @@
 use chrono::Utc;
+use rand::distr::{Alphanumeric, SampleString};
 use serde::{Deserialize, Serialize};
 use tauri::State;
 use wecanencrypt::{
@@ -55,9 +56,20 @@ pub async fn generate_key(
     state: State<'_, AppState>,
     name: String,
     emails: Vec<String>,
-    password: String,
+    key_type: String,
 ) -> Result<KeyData, String> {
-    println!("Generating key for: {} with emails: {:?}", name, emails);
+    println!("Generating key for: {} with emails: {:?} (type: {})", name, emails, key_type);
+
+    let cipher_suite = match key_type.as_str() {
+        "rsa4k" => CipherSuite::Rsa4k,
+        "cv25519" => CipherSuite::Cv25519,
+        other => return Err(format!("Unsupported key type: {}", other)),
+    };
+
+    // Generate a 12-character random alphanumeric password used internally
+    // for the secret key. Kept in AppState for later yubikey upload (including
+    // the optional backup-yubikey step).
+    let password = Alphanumeric.sample_string(&mut rand::rng(), 12);
 
     // Build user IDs in the format "Name <email>"
     let user_ids: Vec<String> = emails
@@ -83,7 +95,7 @@ pub async fn generate_key(
     let generated = create_key(
         &password,
         &user_id_refs,
-        CipherSuite::Rsa4k,
+        cipher_suite,
         None,          // creation_time (use default)
         Some(expiry),  // expiration_time (2 years)
         Some(expiry),  // subkeys_expiration (2 years)

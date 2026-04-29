@@ -566,9 +566,9 @@ dependencies = [
 
 [[package]]
 name = "card-backend-pcsc"
-version = "0.5.0"
+version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "68bb0b707b1b6b058ed93abd70ef65703ed6fd4150d32a0d735b78cfa61cbb35"
+checksum = "c9abd829326b7cbf5e71dc81485f4bc839ac938813f6e5e02c9033b6dee71f1e"
 dependencies = [
  "card-backend",
  "iso7816-tlv",
@@ -5852,9 +5852,10 @@ checksum = "e421abadd41a4225275504ea4d6566923418b7f05506fbc9c0fe86ba7396114b"
 
 [[package]]
 name = "tugpgp"
-version = "0.4.0"
+version = "0.4.1"
 dependencies = [
  "chrono",
+ "rand 0.9.2",
  "serde",
  "serde_json",
  "tauri",
@@ -6341,19 +6342,21 @@ dependencies = [
 
 [[package]]
 name = "wecanencrypt"
-version = "0.10.0"
+version = "0.14.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "980a61de665d30d26e50180d946f070e14a4f7030bddc90218c6819d1098fe4f"
+checksum = "26be0596802a3fd2fb1d3fb7e03b517f23df5509ae919ed3991c707f6ff9667e"
 dependencies = [
  "aes",
  "aes-kw",
  "anyhow",
+ "card-backend",
  "card-backend-pcsc",
  "chrono",
  "digest",
  "ed25519-dalek",
  "hex",
  "hkdf",
+ "log",
  "openpgp-card",
  "p256",
  "p384",

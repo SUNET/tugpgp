@@ -13,7 +13,7 @@ onMounted(async () => {
     const keyData = await invoke('generate_key', {
       name: store.fullName,
       emails: store.emails,
-      password: store.password
+      keyType: store.keyType
     })
     store.setKeyData(keyData)
     router.push('/yubikey')

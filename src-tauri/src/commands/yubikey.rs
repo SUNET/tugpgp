@@ -57,6 +57,7 @@ pub async fn upload_to_yubikey(state: State<'_, AppState>) -> Result<(), String>
         password.as_bytes(),
         CardKeySlot::Signing,
         DEFAULT_ADMIN_PIN,
+        None,
     ).map_err(|e| format!("Failed to upload primary key: {}", e))?;
 
     // Verify encryption subkey exists
@@ -71,6 +72,7 @@ pub async fn upload_to_yubikey(state: State<'_, AppState>) -> Result<(), String>
         password.as_bytes(),
         CardKeySlot::Decryption,
         DEFAULT_ADMIN_PIN,
+        None,
     ).map_err(|e| format!("Failed to upload encryption subkey: {}", e))?;
 
     // Upload authentication subkey to Authentication slot
@@ -86,6 +88,7 @@ pub async fn upload_to_yubikey(state: State<'_, AppState>) -> Result<(), String>
         &auth_subkey.fingerprint,
         CardKeySlot::Authentication,
         DEFAULT_ADMIN_PIN,
+        None,
     ).map_err(|e| format!("Failed to upload authentication subkey: {}", e))?;
 
     // Set touch modes for each key slot
@@ -175,6 +178,7 @@ pub async fn update_key_expiry(
         &cert_data,
         expiry_time,
         pin.as_bytes(),
+        None,
     ).map_err(|e| format!("Failed to update primary key expiry: {}", e))?;
 
     // Update subkeys expiry on card
@@ -184,6 +188,7 @@ pub async fn update_key_expiry(
         &subkey_fp_refs,
         expiry_time,
         pin.as_bytes(),
+        None,
     ).map_err(|e| format!("Failed to update subkeys expiry: {}", e))?;
 
     // Save the updated public key (already armored from update_subkeys_expiry_on_card)
