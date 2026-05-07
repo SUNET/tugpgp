@@ -1,4 +1,4 @@
-publiccodeYmlVersion: "0.4"
+publiccodeYmlVersion: "0"
 
 name: tugpgp
 url: "https://github.com/SUNET/tugpgp"
@@ -21,13 +21,13 @@ description:
           An utility to create and upload OpenPGP keys to Yubikey.
 
     longDescription: >
-        An utility to create and upload OpenPGP keys to Yubikey. The tool
-        will not write the generated key on disk unless specifically asked.
+        An utility to create and upload OpenPGP keys to Yubikey hardware
+        tokens. The tool generates the key material on the host, provisions
+        it onto the Yubikey, and never writes the private key to disk
+        unless specifically asked.
     features:
       - OpenPGP key generation
-      - Upload to Yubikey 
-    screenshots:
-      -  https://github.com/SUNET/tugpgp/raw/main/images/tugpgp_final_screen.png
+      - Upload to Yubikey
 
 legal:
   license: GPL-3.0-or-later
